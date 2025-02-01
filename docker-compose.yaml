@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres
+    container_name: reserva-facil-db
+    environment:
+      POSTGRES_USER: toor
+      POSTGRES_PASSWORD: pass@123
+      POSTGRES_DB: reserva-facil
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
