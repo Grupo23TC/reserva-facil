@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Entrar gov.br</title>
+        <link rel="stylesheet" href="https://barra.sistema.gov.br/v1/fonts/rawline/css/rawline.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Rawline', Arial, sans-serif;
+            }
+
+            .header {
+                height: 72px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 32px;
+                box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.05);
+            }
+
+            .logo {
+                height: 32px;
+                width: auto;
+            }
+
+            .container {
+                max-width: 448px;
+                margin: 48px auto;
+                padding: 24px 40px;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(7,29,65,0.1);
+            }
+
+            h1 {
+                margin-bottom: 8px;
+                font-size: 24px;
+                font-weight: 700;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+            }
+
+            input {
+                width: 100%;
+                padding: 14px;
+                border: 1px solid #888888;
+                border-radius: 4px;
+                font-size: 16px;
+            }
+
+            input:focus {
+                outline: none;
+                border-color: #5992ED;
+                box-shadow: 0 0 0 3px rgba(89,146,237,0.3);
+            }
+
+            button {
+                padding: 16px;
+                background-color: #155BCB;
+                color: white;
+                border: none;
+                border-radius: 50px;
+                font-size: 16px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: background-color 0.2s;
+            }
+
+            button.btnHeader {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            button.btnForm {
+                width: 100%;
+                margin-top: 12px;
+
+            }
+
+            button:hover {
+                background-color: #1351B4;
+            }
+
+            .links {
+                margin-top: 32px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            a {
+                color: #1351b4;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            a:hover {
+                text-decoration: underline;
+                color: #0C326F;
+            }
+
+            .footer {
+                text-align: center;
+                margin-top: 16px;
+                font-size: 12px;
+                border-radius: 4px;
+            }
+
+            @media (max-width: 480px) {
+                .container {
+                    margin: 24px;
+                    padding: 24px;
+                }
+
+                .header {
+                    padding: 0 24px;
+                    height: 64px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+    <header class="header">
+        <figure style="cursor: pointer;">
+            <img src="https://www.gov.br/++theme++padrao_govbr/img/govbr-colorido-b.png" alt="Logo gov.br" class="logo">
+        </figure>
+        <button class="btnHeader"> <i class="fa-solid fa-user"></i> Entrar com gov.br</button>
+    </header>
+
+    <div class="container">
+        <h1>Reserva Fácil</h1>
+
+        <form method="post" th:action="@{/login}">
+            <div class="form-group">
+                <label for="username">CNS</label>
+                <input type="text" id="username" placeholder="Digite seu CNS" name="username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" placeholder="Digite sua senha">
+            </div>
+
+            <button class="btnForm" type="submit">Entrar</button>
+        </form>
+
+        <div class="footer">
+            <p><i class="fa-solid fa-circle-info"></i> Todos os seus dados estão protegidos</p>
+        </div>
+    </div>
+    </body>
+</html>
