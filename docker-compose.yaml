@@ -1,5 +1,21 @@
 services:
-  db:
+  app-reserva-facil:
+    image: 'reserva-facil:dev'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reserva-facil
+    depends_on:
+      - db-reservafacil
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=reserva-facil-db
+      - DB_PORT=5432
+      - DB_NAME=reserva-facil
+      - DB_USERNAME=toor
+      - DB_PASSWORD=pass@123
+  db-reservafacil:
     image: postgres
     container_name: reserva-facil-db
     environment:
