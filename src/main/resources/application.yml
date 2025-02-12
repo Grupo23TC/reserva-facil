@@ -2,4 +2,4 @@ spring:
   application:
     name: reservafacil
   profiles:
-    active: homolog
+    active: dev
