@@ -1,5 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.config;
 
+import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.security.CustomAuthentication;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -37,7 +38,6 @@ import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Configuration
@@ -150,7 +150,7 @@ public class AuthorizationServerConfig {
 
             if(!OAuth2TokenType.ACCESS_TOKEN.equals(tipoToken)) return;
 
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            Collection<Role> authorities = authentication.getAuthorities();
             List<String> authoritiesList = authorities.stream().map(GrantedAuthority::getAuthority).toList();
 
             context

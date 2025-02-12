@@ -20,7 +20,7 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Usuario obterPorCns(String cns) {
         return usuarioRepository.findByCns(cns);
     }

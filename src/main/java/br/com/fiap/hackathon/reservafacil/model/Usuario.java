@@ -1,11 +1,9 @@
 package br.com.fiap.hackathon.reservafacil.model;
 
-import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Type;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -22,7 +20,9 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    @Type(ListArrayType.class)
-    @Column(name = "roles", columnDefinition = "varchar[]")
-    private List<String> roles;
+    @ManyToMany
+    @JoinTable(name = "usuario_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 }
