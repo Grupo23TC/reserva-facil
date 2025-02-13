@@ -3,6 +3,7 @@ package br.com.fiap.hackathon.reservafacil.config;
 import br.com.fiap.hackathon.reservafacil.security.JwtCustomAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,6 +34,8 @@ public class ResourceServerConfig {
                 // Estamos falando que todas requisições devem ser autenticadas.
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests.requestMatchers("/login").permitAll();
+                    authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/usuarios").permitAll();
+                    authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/beneficiarios").permitAll();
 
                     authorizeRequests.anyRequest().authenticated();
                 })

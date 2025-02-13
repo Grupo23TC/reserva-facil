@@ -4,10 +4,10 @@ INSERT INTO client (id, client_id, client_secret, redirect_uri, scope) VALUES ('
 -- Inserindo dados na tabela 'usuario'
 -- INSERT INTO usuario (id, cns, senha, roles) VALUES ('550e8400-e29b-41d4-a716-446655440005', '123456789012345', '$2a$10$0Kxhiicu5MeLLeTFA4WosOqstc.czwhYNLqheZsQNVMseDi6xXfN.', ARRAY['PACIENTE']);
 
-INSERT INTO usuario (id, cns, senha)
+INSERT INTO usuario (id, cns, senha, ativo)
 VALUES
     ('550e8400-e29b-41d4-a716-446655440005', '123456789012345',
-     '$2a$10$0Kxhiicu5MeLLeTFA4WosOqstc.czwhYNLqheZsQNVMseDi6xXfN.');
+     '$2a$10$0Kxhiicu5MeLLeTFA4WosOqstc.czwhYNLqheZsQNVMseDi6xXfN.', false);
 
 -- Inserindo role na tabela 'roles'
 INSERT INTO role (id, authority)

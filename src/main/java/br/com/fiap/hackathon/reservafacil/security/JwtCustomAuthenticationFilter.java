@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -34,12 +35,14 @@ public class JwtCustomAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String cns = authentication.getName();
-        Usuario usuario = service.obterPorCns(cns);
+        Optional<Usuario> usuarioOptional = service.obterPorCns(cns);
 
-        if(usuario == null) {
+        if(usuarioOptional.isEmpty()) {
             filterChain.doFilter(request, response);
             return;
         }
+
+        Usuario usuario = usuarioOptional.get();
 
         authentication = new CustomAuthentication(usuario);
         SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -1,15 +1,18 @@
 package br.com.fiap.hackathon.reservafacil.model;
 
 import br.com.fiap.hackathon.reservafacil.model.enums.FaixaEtariaEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import br.com.fiap.hackathon.reservafacil.model.enums.GeneroEnum;
+import br.com.fiap.hackathon.reservafacil.model.enums.TipoMedicamentoEnum;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "beneficiario")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Beneficiario {
 
     @Id
@@ -18,17 +21,30 @@ public class Beneficiario {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cpf;
 
     @Column(nullable = false)
     private String telefone;
 
-    @Column(name = "faixa_etaria")
+    @Column(name = "faixa_etaria", nullable = false)
+    @Enumerated(EnumType.STRING)
     private FaixaEtariaEnum faixaEtariaEnum;
 
-    @Column(name = "endereco")
+    @Column(name = "endereco", nullable = false)
     private String endereco;
 
-    //Outros Enums
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private GeneroEnum genero;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoMedicamentoEnum tipoMedicamento;
+
+    @Column(nullable = false)
+    private Boolean ativo;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Usuario usuario;
 }
