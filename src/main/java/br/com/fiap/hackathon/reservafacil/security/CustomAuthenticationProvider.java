@@ -22,9 +22,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String cns = authentication.getName();
         String senhaDigitada = authentication.getCredentials().toString();
 
-        Usuario usuario = usuarioService.obterPorCns(cns);
-
-        if(usuario == null) throw getErroUsuarioNaoEncontrado();
+        Usuario usuario = usuarioService.obterPorCns(cns)
+                .orElseThrow(this::getErroUsuarioNaoEncontrado);
 
         boolean senhasBatem = passwordEncoder.matches(senhaDigitada, usuario.getSenha());
 
