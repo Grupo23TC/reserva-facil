@@ -1,5 +1,9 @@
 package br.com.fiap.hackathon.reservafacil.service;
 
+import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
+import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
+import br.com.fiap.hackathon.reservafacil.exception.role.RoleNaoEncontradaException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
@@ -12,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +31,7 @@ public class BeneficiarioService {
         Optional<Beneficiario> beneficiarioExiste = repository.findByCns(request.usuario().cns());
 
         if (beneficiarioExiste.isPresent()) {
-            throw new RuntimeException("Beneficiário já cadastrado");
+            throw new BeneficiarioCadastradoException("Beneficiário já cadastrado");
         }
 
         Beneficiario beneficiario = criarBeneficiario(request);
@@ -39,10 +42,10 @@ public class BeneficiarioService {
     @Transactional(readOnly = true)
     public Beneficiario buscarPorCns(String cns) {
         Beneficiario beneficiario = repository.findByCns(cns)
-                .orElseThrow(() -> new RuntimeException("Beneficiário não encontrado"));
+                .orElseThrow(() -> new BeneficiarioNaoEncontradoException("Beneficiário não encontrado"));
 
         if(usuariosNaoSaoIguais(cns)) {
-            throw new RuntimeException("Você não pode ter acesso ou alterar os dados de outros beneficiários");
+            throw new UsuarioNaoIguaisException("Você não pode ter acesso ou alterar os dados de outros beneficiários");
         }
 
         return beneficiario;
@@ -87,7 +90,9 @@ public class BeneficiarioService {
         usuario.setSenha(passwordEncoder.encode(request.usuario().senha()));
         usuario.setAtivo(true);
 
-        Role role = roleRepository.findByAuthority(request.usuario().role()).orElseThrow(() -> new RuntimeException("Role nao encontrado"));
+        Role role = roleRepository
+                .findByAuthority(request.usuario().role())
+                .orElseThrow(() -> new RoleNaoEncontradaException("Role nao encontrado"));
 
         usuario.getRoles().add(role);
         beneficiario.setUsuario(usuario);

@@ -1,13 +1,11 @@
 package br.com.fiap.hackathon.reservafacil.controller;
 
-import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.AtualizarSenhaRequest;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.CadastrarUsuarioRequest;
 import br.com.fiap.hackathon.reservafacil.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

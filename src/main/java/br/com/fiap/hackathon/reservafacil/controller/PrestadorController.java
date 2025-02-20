@@ -4,7 +4,6 @@ import br.com.fiap.hackathon.reservafacil.model.dto.prestador.CadastrarPrestador
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.PrestadorResponseDTO;
 import br.com.fiap.hackathon.reservafacil.service.PrestadorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

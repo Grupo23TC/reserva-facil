@@ -1,5 +1,9 @@
 package br.com.fiap.hackathon.reservafacil.service;
 
+import br.com.fiap.hackathon.reservafacil.exception.role.RoleNaoEncontradaException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioCadastradoException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoEncontradoException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
 import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.repository.RoleRepository;
@@ -10,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,12 +29,12 @@ public class UsuarioService {
         Optional<Usuario> usuarioExiste = usuarioRepository.findByCns(cns);
 
         if(usuarioExiste.isPresent())
-            throw new RuntimeException("CNS já cadastrado.");
+            throw new UsuarioCadastradoException("CNS já cadastrado.");
 
         Optional<Role> roleOptional = roleRepository.findByAuthority(role);
 
         if (roleOptional.isEmpty())
-            throw new RuntimeException("Não foi possível encontrar a role.");
+            throw new RoleNaoEncontradaException("Não foi possível encontrar a role.");
 
         Usuario usuario = new Usuario();
 
@@ -52,10 +55,10 @@ public class UsuarioService {
     @Transactional
     public void atualizarSenhaUsuario(String cns, String novaSenha) {
         Usuario usuario = usuarioRepository.findByCns(cns)
-                .orElseThrow(() -> new RuntimeException("Não foi possível alterar a senha."));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível alterar a senha."));
 
         if(usuariosNaoSaoIguais(cns))
-            throw new RuntimeException("Não foi possível alterar a senha.");
+            throw new UsuarioNaoIguaisException("Não foi possível alterar a senha.");
 
         var senha = passwordEncoder.encode(novaSenha);
         usuario.setSenha(senha);
@@ -66,10 +69,10 @@ public class UsuarioService {
     @Transactional
     public void desativar(String cns) {
         Usuario usuario = usuarioRepository.findByCns(cns)
-                .orElseThrow(() -> new RuntimeException("Não foi possível desativar usuário."));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível desativar usuário."));
 
         if(usuariosNaoSaoIguais(cns))
-            throw new RuntimeException("Não foi possível desativar usuário.");
+            throw new UsuarioNaoIguaisException("Não foi possível desativar usuário.");
 
         usuario.setAtivo(false);
         usuarioRepository.save(usuario);
@@ -78,10 +81,10 @@ public class UsuarioService {
     @Transactional
     public void ativar(String cns) {
         Usuario usuario = usuarioRepository.findByCns(cns)
-                .orElseThrow(() -> new RuntimeException("Não foi possível ativar usuário."));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível ativar usuário."));
 
         if(usuariosNaoSaoIguais(cns))
-            throw new RuntimeException("Não foi possível ativar usuário.");
+            throw new UsuarioNaoIguaisException("Não foi possível ativar usuário.");
 
         usuario.setAtivo(true);
         usuarioRepository.save(usuario);
