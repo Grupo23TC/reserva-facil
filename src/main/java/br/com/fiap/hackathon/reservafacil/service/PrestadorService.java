@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PrestadorService {
@@ -28,5 +30,9 @@ public class PrestadorService {
         prestador.setTipoPrestadorEnum(prestador.getTipoPrestadorEnum());
 
         return PrestadorMapper.toPrestadorResponseDTO(prestadorRepository.save(prestador));
+    }
+
+    public List<PrestadorResponseDTO> buscarPrestadorPorLocalidade(String localidade) {
+        return prestadorRepository.findByLogradouro(localidade).stream().map(PrestadorMapper::toPrestadorResponseDTO).toList();
     }
 }
