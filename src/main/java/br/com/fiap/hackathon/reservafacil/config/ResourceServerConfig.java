@@ -29,8 +29,6 @@ public class ResourceServerConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 // Adiciona a página de login customizada
                 .formLogin(configurer -> configurer.loginPage("/login").permitAll())
-                // Adiciona o http basic como padrão
-                .httpBasic(Customizer.withDefaults())
                 // Estamos falando que todas requisições devem ser autenticadas.
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests.requestMatchers("/login").permitAll();
@@ -66,6 +64,12 @@ public class ResourceServerConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers(
+                "/v2/api-docs/**",
+                "/v3/api-docs/**",
+                "/swagger-resources/**",
+                "/swagger-ui.html",
+                "/swagger-ui/**",
+                "/webjars/**",
                 "/h2-console/**"
         );
     }
