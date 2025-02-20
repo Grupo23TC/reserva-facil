@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/prestadores")
 @RequiredArgsConstructor
@@ -30,4 +32,9 @@ public class PrestadorController {
         return ResponseEntity.status(HttpStatus.CREATED).body(prestadorSalvo);
     }
 
+    @GetMapping("/localidade")
+    public ResponseEntity<List<PrestadorResponseDTO>> buscarPrestadoresPorLocalidade(@RequestParam String localidade) {
+        List<PrestadorResponseDTO> listaPrestadoresPorLocalidade = prestadorService.buscarPrestadorPorLocalidade(localidade);
+        return ResponseEntity.status(HttpStatus.OK).body(listaPrestadoresPorLocalidade);
+    }
 }
