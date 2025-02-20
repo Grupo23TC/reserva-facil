@@ -4,13 +4,14 @@ import br.com.fiap.hackathon.reservafacil.model.dto.usuario.CadastrarUsuarioRequ
 import br.com.fiap.hackathon.reservafacil.model.enums.FaixaEtariaEnum;
 import br.com.fiap.hackathon.reservafacil.model.enums.GeneroEnum;
 import br.com.fiap.hackathon.reservafacil.model.enums.TipoMedicamentoEnum;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.br.CPF;
 
 public record CadastrarBeneficiarioRequest(
-        CadastrarUsuarioRequest usuario,
+        @Valid CadastrarUsuarioRequest usuario,
 
         @NotBlank(message = "Esse campo não pode estar vazio.")
         String nome,
