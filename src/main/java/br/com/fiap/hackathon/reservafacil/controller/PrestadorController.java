@@ -25,15 +25,16 @@ public class PrestadorController {
         return ResponseEntity.status(HttpStatus.OK).body(prestadorService.listarPrestadores(pageable));
     }
 
+    @GetMapping("/localidade")
+    public ResponseEntity<List<PrestadorResponseDTO>> buscarPrestadoresPorLocalidade(@RequestParam String localidade) {
+        List<PrestadorResponseDTO> listaPrestadoresPorLocalidade = prestadorService.buscarPrestadorPorLocalidade(localidade);
+        return ResponseEntity.status(HttpStatus.OK).body(listaPrestadoresPorLocalidade);
+    }
+
     @PostMapping
     public ResponseEntity<PrestadorResponseDTO> cadastrarPrestador(@RequestBody CadastrarPrestadorRequestDTO prestadorRequestDTO) {
         PrestadorResponseDTO prestadorSalvo = prestadorService.cadastrarPrestador(prestadorRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(prestadorSalvo);
     }
 
-    @GetMapping("/localidade")
-    public ResponseEntity<List<PrestadorResponseDTO>> buscarPrestadoresPorLocalidade(@RequestParam String localidade) {
-        List<PrestadorResponseDTO> listaPrestadoresPorLocalidade = prestadorService.buscarPrestadorPorLocalidade(localidade);
-        return ResponseEntity.status(HttpStatus.OK).body(listaPrestadoresPorLocalidade);
-    }
 }

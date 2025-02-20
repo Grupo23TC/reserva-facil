@@ -6,7 +6,6 @@ import br.com.fiap.hackathon.reservafacil.model.dto.prestador.CadastrarPrestador
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.PrestadorResponseDTO;
 import br.com.fiap.hackathon.reservafacil.repository.PrestadorRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,10 +23,10 @@ public class PrestadorService {
 
     public PrestadorResponseDTO cadastrarPrestador(CadastrarPrestadorRequestDTO prestadorRequestDTO) {
         Prestador prestador = new Prestador();
-        prestador.setNome(prestador.getNome());
-        prestador.setNomeFantasia(prestador.getNomeFantasia());
-        prestador.setEndereco(prestador.getEndereco());
-        prestador.setTipoPrestadorEnum(prestador.getTipoPrestadorEnum());
+        prestador.setNome(prestadorRequestDTO.nome());
+        prestador.setNomeFantasia(prestadorRequestDTO.nomeFantasia());
+        prestador.setEndereco(prestadorRequestDTO.endereco());
+        prestador.setTipoPrestadorEnum(prestadorRequestDTO.tipoPrestador());
 
         return PrestadorMapper.toPrestadorResponseDTO(prestadorRepository.save(prestador));
     }

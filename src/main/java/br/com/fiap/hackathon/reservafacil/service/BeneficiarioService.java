@@ -4,6 +4,7 @@ import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCad
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.role.RoleNaoEncontradaException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.mapper.EnderecoMapper;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
@@ -80,7 +81,7 @@ public class BeneficiarioService {
         beneficiario.setCpf(request.cpf());
         beneficiario.setTelefone(request.telefone());
         beneficiario.setFaixaEtariaEnum(request.faixaEtaria());
-        beneficiario.setEndereco(request.endereco());
+        beneficiario.setEndereco(EnderecoMapper.toEndereco(request.endereco()));
         beneficiario.setGenero(request.genero());
         beneficiario.setTipoMedicamento(request.tipoMedicamento());
         beneficiario.setAtivo(true);

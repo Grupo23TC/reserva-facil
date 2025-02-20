@@ -1,5 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.model.dto.beneficiario;
 
+import br.com.fiap.hackathon.reservafacil.model.dto.endereco.CadastrarEnderecoRequest;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.CadastrarUsuarioRequest;
 import br.com.fiap.hackathon.reservafacil.model.enums.FaixaEtariaEnum;
 import br.com.fiap.hackathon.reservafacil.model.enums.GeneroEnum;
@@ -29,8 +30,7 @@ public record CadastrarBeneficiarioRequest(
         @NotNull(message = "Esse campo não pode estar vazio.")
         TipoMedicamentoEnum tipoMedicamento,
 
-        @NotBlank(message = "Esse campo não pode estar vazio.")
-        String endereco,
+        @Valid CadastrarEnderecoRequest endereco,
 
         @NotBlank(message = "Esse campo não pode estar vazio.")
         @Pattern(regexp = "^\\(?(\\d{2})?\\)?\\s?(9?\\d{4})[-.\\s]?(\\d{4})$", message = "O telefone deve conter um número válido.")

@@ -31,8 +31,9 @@ public class Beneficiario {
     @Enumerated(EnumType.STRING)
     private FaixaEtariaEnum faixaEtariaEnum;
 
-    @Column(name = "endereco", nullable = false)
-    private String endereco;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="enderecoId")
+    private Endereco endereco;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

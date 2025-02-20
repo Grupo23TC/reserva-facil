@@ -15,14 +15,15 @@ public class Prestador {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome")
     private String nome;
 
-    @Column(nullable = false)
+    @Column(name = "nome_fantasia")
     private String nomeFantasia;
 
-    @Column(name = "endereco")
-    private String endereco;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="enderecoId")
+    private Endereco endereco;
 
     @Column(name = "tipo_prestador")
     private TipoPrestadorEnum tipoPrestadorEnum;

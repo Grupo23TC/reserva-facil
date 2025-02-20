@@ -20,7 +20,7 @@ public class BeneficiarioMapper {
                 model.getCpf(),
                 model.getTelefone(),
                 model.getFaixaEtariaEnum(),
-                model.getEndereco(),
+                EnderecoMapper.toEnderecoResponse(model.getEndereco()),
                 model.getGenero(),
                 model.getTipoMedicamento(),
                 model.getAtivo()

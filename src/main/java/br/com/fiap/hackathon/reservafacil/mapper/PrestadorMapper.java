@@ -7,8 +7,8 @@ public class PrestadorMapper {
 
     public static PrestadorResponseDTO toPrestadorResponseDTO(Prestador prestador){
         return new PrestadorResponseDTO(
-                prestador.getNome(),
                 prestador.getNomeFantasia(),
+                prestador.getEndereco(),
                 prestador.getTipoPrestadorEnum()
         );
     }
