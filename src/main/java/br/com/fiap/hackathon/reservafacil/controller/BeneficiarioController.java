@@ -18,33 +18,32 @@ import org.springframework.web.bind.annotation.*;
 public class BeneficiarioController {
     private final BeneficiarioService service;
     private final SecurityService securityService;
-    private final BeneficiarioMapper mapper;
 
     @PostMapping
     public ResponseEntity<BeneficiarioResponse> save(@Valid @RequestBody CadastrarBeneficiarioRequest request) {
         Beneficiario beneficiario = service.cadastrar(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(beneficiario));
+        return ResponseEntity.status(HttpStatus.CREATED).body(BeneficiarioMapper.toResponse(beneficiario));
     }
 
     @GetMapping("/{cns}")
     public ResponseEntity<BeneficiarioResponse> buscarPorCns(@PathVariable String cns) {
         Beneficiario beneficiario = service.buscarPorCns(cns);
 
-        return ResponseEntity.ok(mapper.toResponse(beneficiario));
+        return ResponseEntity.ok(BeneficiarioMapper.toResponse(beneficiario));
     }
 
     @PatchMapping("/{cns}")
     public ResponseEntity<BeneficiarioResponse> ativar(@PathVariable String cns) {
         Beneficiario beneficiario = service.ativar(cns);
 
-        return ResponseEntity.ok(mapper.toResponse(beneficiario));
+        return ResponseEntity.ok(BeneficiarioMapper.toResponse(beneficiario));
     }
 
     @DeleteMapping("/{cns}")
     public ResponseEntity<BeneficiarioResponse> desativar(@PathVariable String cns) {
         Beneficiario beneficiario = service.desativar(cns);
 
-        return ResponseEntity.ok(mapper.toResponse(beneficiario));
+        return ResponseEntity.ok(BeneficiarioMapper.toResponse(beneficiario));
     }
 }

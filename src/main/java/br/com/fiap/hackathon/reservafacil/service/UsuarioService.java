@@ -53,7 +53,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario atualizarSenhaUsuario(String cns, String novaSenha) {
+    public void atualizarSenhaUsuario(String cns, String novaSenha) {
         Usuario usuario = usuarioRepository.findByCns(cns)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível alterar a senha."));
 
@@ -63,7 +63,7 @@ public class UsuarioService {
         var senha = passwordEncoder.encode(novaSenha);
         usuario.setSenha(senha);
 
-        return usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
     }
 
     @Transactional

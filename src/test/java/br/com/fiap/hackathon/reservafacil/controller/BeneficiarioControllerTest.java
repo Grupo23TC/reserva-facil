@@ -27,7 +27,6 @@ import static br.com.fiap.hackathon.reservafacil.Util.BeneficiarioUtil.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,9 +37,6 @@ public class BeneficiarioControllerTest {
 
     @Mock
     private BeneficiarioService service;
-
-    @Mock
-    private BeneficiarioMapper mapper;
 
     @InjectMocks
     private BeneficiarioController controller;
@@ -77,7 +73,6 @@ public class BeneficiarioControllerTest {
             BeneficiarioResponse beneficiarioResponse = gerarBeneficiarioResponse();
 
             when(service.cadastrar(any(CadastrarBeneficiarioRequest.class))).thenReturn(beneficiario);
-            when(mapper.toResponse(any(Beneficiario.class))).thenReturn(beneficiarioResponse);
 
             mockMvc.perform(
                             post("/api/v1/beneficiarios")
@@ -90,7 +85,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.cpf").value(beneficiario.getCpf()));
 
             verify(service, times(1)).cadastrar(any(CadastrarBeneficiarioRequest.class));
-            verify(mapper, times(1)).toResponse(any(Beneficiario.class));
         }
 
         @Test
@@ -112,7 +106,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios"));
 
             verify(service, times(1)).cadastrar(any(CadastrarBeneficiarioRequest.class));
-            verify(mapper, never()).toResponse(any(Beneficiario.class));
         }
 
         @Test
@@ -134,7 +127,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios"));
 
             verify(service, times(1)).cadastrar(any(CadastrarBeneficiarioRequest.class));
-            verify(mapper, never()).toResponse(any(Beneficiario.class));
         }
     }
 
@@ -147,7 +139,6 @@ public class BeneficiarioControllerTest {
             BeneficiarioResponse beneficiarioResponse = gerarBeneficiarioResponse();
 
             when(service.buscarPorCns(anyString())).thenReturn(beneficiario);
-            when(mapper.toResponse(any(Beneficiario.class))).thenReturn(beneficiarioResponse);
 
             mockMvc.perform(get("/api/v1/beneficiarios/{cns}", cns))
                     .andExpect(status().isOk())
@@ -156,7 +147,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.cpf").value(beneficiario.getCpf()));
 
             verify(service, times(1)).buscarPorCns(anyString());
-            verify(mapper, times(1)).toResponse(any(Beneficiario.class));
         }
 
         @Test
@@ -174,7 +164,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
 
             verify(service, times(1)).buscarPorCns(anyString());
-            verify(mapper, never()).toResponse(any(Beneficiario.class));
         }
 
         @Test
@@ -192,7 +181,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
 
             verify(service, times(1)).buscarPorCns(anyString());
-            verify(mapper, never()).toResponse(any(Beneficiario.class));
         }
     }
 
@@ -205,7 +193,6 @@ public class BeneficiarioControllerTest {
             BeneficiarioResponse beneficiarioResponse = gerarBeneficiarioResponse();
 
             when(service.ativar(anyString())).thenReturn(beneficiario);
-            when(mapper.toResponse(any(Beneficiario.class))).thenReturn(beneficiarioResponse);
 
             mockMvc.perform(patch("/api/v1/beneficiarios/{cns}", cns))
                     .andExpect(status().isOk())
@@ -215,7 +202,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.cpf").value(beneficiario.getCpf()));
 
             verify(service, times(1)).ativar(anyString());
-            verify(mapper, times(1)).toResponse(any(Beneficiario.class));
         }
 
         @Test
@@ -233,7 +219,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
 
             verify(service, times(1)).ativar(anyString());
-            verify(mapper, never()).toResponse(any(Beneficiario.class));
         }
 
         @Test
@@ -251,7 +236,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
 
             verify(service, times(1)).ativar(anyString());
-            verify(mapper, never()).toResponse(any(Beneficiario.class));
         }
     }
 
@@ -264,7 +248,6 @@ public class BeneficiarioControllerTest {
             BeneficiarioResponse beneficiarioResponse = gerarBeneficiarioResponse(false);
 
             when(service.desativar(anyString())).thenReturn(beneficiario);
-            when(mapper.toResponse(any(Beneficiario.class))).thenReturn(beneficiarioResponse);
 
             mockMvc.perform(delete("/api/v1/beneficiarios/{cns}", cns))
                     .andExpect(status().isOk())
@@ -274,7 +257,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.cpf").value(beneficiario.getCpf()));
 
             verify(service, times(1)).desativar(anyString());
-            verify(mapper, times(1)).toResponse(any(Beneficiario.class));
         }
 
         @Test
@@ -292,7 +274,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
 
             verify(service, times(1)).desativar(anyString());
-            verify(mapper, never()).toResponse(any(Beneficiario.class));
         }
 
         @Test
@@ -310,7 +291,6 @@ public class BeneficiarioControllerTest {
                     .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
 
             verify(service, times(1)).desativar(anyString());
-            verify(mapper, never()).toResponse(any(Beneficiario.class));
         }
     }
 }

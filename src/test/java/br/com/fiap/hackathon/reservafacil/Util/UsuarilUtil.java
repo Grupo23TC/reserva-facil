@@ -1,6 +1,7 @@
 package br.com.fiap.hackathon.reservafacil.Util;
 
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
+import br.com.fiap.hackathon.reservafacil.model.dto.usuario.AtualizarSenhaRequest;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.CadastrarUsuarioRequest;
 
 import java.util.Set;
@@ -43,5 +44,19 @@ public class UsuarilUtil {
                 true,
                 Set.of(gerarRole())
         );
+    }
+
+    public static Usuario gerarUsuario(boolean ativo) {
+        return new Usuario(
+                UUID.randomUUID(),
+                "654987123065482",
+                "123",
+                ativo,
+                Set.of(gerarRole())
+        );
+    }
+
+    public static AtualizarSenhaRequest gerarAtualizarSenhaRequest() {
+        return new AtualizarSenhaRequest("nova-senha");
     }
 }

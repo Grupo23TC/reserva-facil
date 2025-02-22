@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class BeneficiarioMapper {
 
-    public BeneficiarioResponse toResponse(Beneficiario model) {
+    public static BeneficiarioResponse toResponse(Beneficiario model) {
         return new BeneficiarioResponse(
                 model.getCns(),
                 model.getNome(),

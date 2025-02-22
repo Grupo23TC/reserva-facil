@@ -185,13 +185,7 @@ public class UsuarioServiceTest {
             when(passwordEncoder.encode(anyString())).thenReturn(novaSenhaCriptografada);
             when(repository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
 
-            Usuario response = service.atualizarSenhaUsuario(cns, novaSenha);
-
-            assertThat(response)
-                    .isNotNull()
-                    .isInstanceOf(Usuario.class)
-                    .extracting(Usuario::getCns, Usuario::getSenha)
-                    .containsExactly(cns, novaSenhaCriptografada);
+            service.atualizarSenhaUsuario(cns, novaSenha);
 
             verify(repository, times(1)).findByCns(anyString());
             verify(securityService, times(1)).obterUsuarioLogado();
