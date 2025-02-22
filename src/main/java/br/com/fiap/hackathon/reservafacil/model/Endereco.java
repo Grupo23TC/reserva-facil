@@ -1,13 +1,17 @@
 package br.com.fiap.hackathon.reservafacil.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "endereco")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Endereco {
 
     @Id

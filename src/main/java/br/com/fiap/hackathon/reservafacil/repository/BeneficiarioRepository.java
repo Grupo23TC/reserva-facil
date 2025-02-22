@@ -9,4 +9,8 @@ import java.util.UUID;
 
 public interface BeneficiarioRepository extends JpaRepository<Beneficiario, UUID> {
     Optional<Beneficiario> findByCns(String cns);
+
+    boolean existsByCns(String cns);
+
+    boolean existsByCpf(String cpf);
 }

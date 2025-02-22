@@ -4,6 +4,7 @@ import br.com.fiap.hackathon.reservafacil.mapper.BeneficiarioMapper;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.BeneficiarioResponse;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBeneficiarioRequest;
+import br.com.fiap.hackathon.reservafacil.security.SecurityService;
 import br.com.fiap.hackathon.reservafacil.service.BeneficiarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BeneficiarioController {
     private final BeneficiarioService service;
+    private final SecurityService securityService;
     private final BeneficiarioMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody CadastrarBeneficiarioRequest request) {
-        service.cadastrar(request);
+    public ResponseEntity<BeneficiarioResponse> save(@Valid @RequestBody CadastrarBeneficiarioRequest request) {
+        Beneficiario beneficiario = service.cadastrar(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(beneficiario));
     }
 
     @GetMapping("/{cns}")
@@ -33,16 +35,16 @@ public class BeneficiarioController {
     }
 
     @PatchMapping("/{cns}")
-    public ResponseEntity<Void> ativar(@PathVariable String cns) {
-        service.ativar(cns);
+    public ResponseEntity<BeneficiarioResponse> ativar(@PathVariable String cns) {
+        Beneficiario beneficiario = service.ativar(cns);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(mapper.toResponse(beneficiario));
     }
 
     @DeleteMapping("/{cns}")
-    public ResponseEntity<Void> desativar(@PathVariable String cns) {
-        service.desativar(cns);
+    public ResponseEntity<BeneficiarioResponse> desativar(@PathVariable String cns) {
+        Beneficiario beneficiario = service.desativar(cns);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(mapper.toResponse(beneficiario));
     }
 }

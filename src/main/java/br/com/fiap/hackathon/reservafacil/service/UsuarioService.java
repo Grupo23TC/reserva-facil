@@ -25,10 +25,10 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void salvarUsuario(String cns, String senha, String role) {
-        Optional<Usuario> usuarioExiste = usuarioRepository.findByCns(cns);
+    public Usuario salvarUsuario(String cns, String senha, String role) {
+        boolean usuarioExiste = usuarioRepository.existsByCns(cns);
 
-        if(usuarioExiste.isPresent())
+        if(usuarioExiste)
             throw new UsuarioCadastradoException("CNS já cadastrado.");
 
         Optional<Role> roleOptional = roleRepository.findByAuthority(role);
@@ -44,7 +44,7 @@ public class UsuarioService {
         usuario.setAtivo(true);
         usuario.getRoles().add(roleOptional.get());
 
-        usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     @Transactional(readOnly = true)
@@ -53,7 +53,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void atualizarSenhaUsuario(String cns, String novaSenha) {
+    public Usuario atualizarSenhaUsuario(String cns, String novaSenha) {
         Usuario usuario = usuarioRepository.findByCns(cns)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível alterar a senha."));
 
@@ -63,11 +63,11 @@ public class UsuarioService {
         var senha = passwordEncoder.encode(novaSenha);
         usuario.setSenha(senha);
 
-        usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     @Transactional
-    public void desativar(String cns) {
+    public Usuario desativar(String cns) {
         Usuario usuario = usuarioRepository.findByCns(cns)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível desativar usuário."));
 
@@ -75,11 +75,11 @@ public class UsuarioService {
             throw new UsuarioNaoIguaisException("Não foi possível desativar usuário.");
 
         usuario.setAtivo(false);
-        usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     @Transactional
-    public void ativar(String cns) {
+    public Usuario ativar(String cns) {
         Usuario usuario = usuarioRepository.findByCns(cns)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível ativar usuário."));
 
@@ -87,7 +87,7 @@ public class UsuarioService {
             throw new UsuarioNaoIguaisException("Não foi possível ativar usuário.");
 
         usuario.setAtivo(true);
-        usuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     private boolean usuariosNaoSaoIguais(String cns) {

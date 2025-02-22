@@ -22,22 +22,30 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BeneficiarioService {
+    private static final String BENEFICIARIO_JA_EXISTE = "Beneficiário já cadastrado";
+
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final SecurityService securityService;
     private final BeneficiarioRepository repository;
 
     @Transactional
-    public void cadastrar(CadastrarBeneficiarioRequest request) {
-        Optional<Beneficiario> beneficiarioExiste = repository.findByCns(request.usuario().cns());
+    public Beneficiario cadastrar(CadastrarBeneficiarioRequest request) {
+        boolean beneficiarioExisteCns = repository.existsByCns(request.usuario().cns());
+        boolean beneficiarioExisteCpf = repository.existsByCpf(request.cpf());
 
-        if (beneficiarioExiste.isPresent()) {
-            throw new BeneficiarioCadastradoException("Beneficiário já cadastrado");
+        if (beneficiarioExisteCns) {
+            throw new BeneficiarioCadastradoException(BENEFICIARIO_JA_EXISTE);
+        }
+
+        if (beneficiarioExisteCpf) {
+            throw new BeneficiarioCadastradoException(BENEFICIARIO_JA_EXISTE);
+
         }
 
         Beneficiario beneficiario = criarBeneficiario(request);
 
-        repository.save(beneficiario);
+        return repository.save(beneficiario);
     }
 
     @Transactional(readOnly = true)
@@ -53,19 +61,19 @@ public class BeneficiarioService {
     }
 
     @Transactional
-    public void ativar(String cns) {
+    public Beneficiario ativar(String cns) {
         Beneficiario beneficiario = buscarPorCns(cns);
         beneficiario.setAtivo(true);
 
-        repository.save(beneficiario);
+        return repository.save(beneficiario);
     }
 
     @Transactional
-    public void desativar(String cns) {
+    public Beneficiario desativar(String cns) {
         Beneficiario beneficiario = buscarPorCns(cns);
         beneficiario.setAtivo(false);
 
-        repository.save(beneficiario);
+        return repository.save(beneficiario);
     }
 
     private boolean usuariosNaoSaoIguais(String cns) {
