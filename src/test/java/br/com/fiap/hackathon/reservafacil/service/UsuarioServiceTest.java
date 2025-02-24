@@ -212,7 +212,7 @@ public class UsuarioServiceTest {
         }
 
         @Test
-        void deveGerarExcecao_QuandoAtualizarSenhaUsuario_UmUsuarioTentaAlterarSenhaDoOutro() {
+        void deveGerarExcecao_QuandoAtualizarSenhaUsuario_AcessoNegado() {
             String cns = "654987123065482";
             String novaSenha = "123456";
             Usuario usuario = gerarUsuario(cns);
