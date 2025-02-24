@@ -166,7 +166,7 @@ public class BeneficiarioServiceTest {
         }
 
         @Test
-        void deveGerarExcecao_QuandoBuscarPorCns_UmUsuarioTentandoAcessarDadosDeOutroUsuario() {
+        void deveGerarExcecao_QuandoBuscarPorCns_AcessoNegado() {
             Beneficiario beneficiario = gerarBeneficiario();
             Usuario usuario = gerarUsuario("123456789012345");
 
@@ -222,7 +222,7 @@ public class BeneficiarioServiceTest {
         }
 
         @Test
-        void deveGerarExcecao_QuandoAtivarBeneficiario_UmUsuarioTentandoAtivarOutroUsuario() {
+        void deveGerarExcecao_QuandoAtivarBeneficiario_AcessoNegado() {
             Beneficiario beneficiario = gerarBeneficiario();
             Usuario usuario = gerarUsuario("123456789012345");
 

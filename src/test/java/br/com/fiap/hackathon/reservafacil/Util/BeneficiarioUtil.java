@@ -16,7 +16,20 @@ public class BeneficiarioUtil {
         return new CadastrarBeneficiarioRequest(
                 gerarCadastrarUsuarioRequest(),
                 "Lucas",
-                "01234567890",
+                "01234567891",
+                FaixaEtariaEnum.valueOf(29),
+                GeneroEnum.MASCULINO,
+                TipoMedicamentoEnum.TARJA_PRETA,
+                gerarCadastrarEnderecoRequest(),
+                "00999999999"
+        );
+    }
+
+    public static CadastrarBeneficiarioRequest gerarCadastrarBeneficiarioRequest(String cns) {
+        return new CadastrarBeneficiarioRequest(
+                gerarCadastrarUsuarioRequest(cns),
+                "Lucas",
+                "01234568790",
                 FaixaEtariaEnum.valueOf(29),
                 GeneroEnum.MASCULINO,
                 TipoMedicamentoEnum.TARJA_PRETA,

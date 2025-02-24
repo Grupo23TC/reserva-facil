@@ -42,3 +42,39 @@ INSERT INTO beneficiario (
     '550e8400-e29b-41d4-a716-446655440001',
     '550e8400-e29b-41d4-a716-446655440005'
 );
+
+-- Segundo usuario
+INSERT INTO usuario (id, cns, senha, ativo)
+VALUES ('550e8400-e29b-41d4-a716-446655440006', '987654321098765', '$2a$10$0Kxhiicu5MeLLeTFA4WosOqstc.czwhYNLqheZsQNVMseDi6xXfN.', true);
+
+INSERT INTO usuario_role (user_id, role_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440006', '550e8400-e29b-41d4-a716-446655440010');
+
+-- Segundo endereço
+INSERT INTO endereco (id, logradouro, bairro, cidade, estado, complemento)
+VALUES ('550e8400-e29b-41d4-a716-446655440002', 'Avenida Paulista', 'Bela Vista', 'São Paulo', 'SP', 'Andar 15');
+
+-- Segundo beneficiário
+INSERT INTO beneficiario (
+    cns,
+    nome,
+    cpf,
+    telefone,
+    faixa_etaria,
+    genero,
+    tipo_medicamento,
+    ativo,
+    endereco_id,
+    usuario_id
+) VALUES (
+    '987654321098765',
+    'Ciclano de Oliveira',
+    '09876543210',
+    '11888888888',
+    'FAIXA_29_a_33',
+    'MASCULINO',
+    'TARJA_PRETA',
+    true,
+    '550e8400-e29b-41d4-a716-446655440002',
+    '550e8400-e29b-41d4-a716-446655440006'
+);
