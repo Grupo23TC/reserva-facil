@@ -27,7 +27,7 @@ public class MedicamentoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MedicamentoResponseDTO> buscar(@PathVariable UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.buscarMedicamento(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.buscarMedicamentoDTO(id));
     }
 
     @GetMapping
