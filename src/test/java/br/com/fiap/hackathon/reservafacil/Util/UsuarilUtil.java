@@ -26,6 +26,14 @@ public class UsuarilUtil {
         );
     }
 
+    public static CadastrarUsuarioRequest gerarCadastrarUsuarioRequest(String cns, String role) {
+        return new CadastrarUsuarioRequest(
+                cns,
+                "123",
+                role
+        );
+    }
+
     public static Usuario gerarUsuario() {
         return new Usuario(
                 UUID.randomUUID(),
@@ -57,6 +65,6 @@ public class UsuarilUtil {
     }
 
     public static AtualizarSenhaRequest gerarAtualizarSenhaRequest() {
-        return new AtualizarSenhaRequest("nova-senha");
+        return new AtualizarSenhaRequest("123");
     }
 }

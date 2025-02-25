@@ -68,9 +68,8 @@ public class BeneficiarioControllerTest {
     class CadastrarBeneficiario {
         @Test
         void deveCadastrarBeneficiario() throws Exception {
-            CadastrarBeneficiarioRequest request = gerarCadastrarBeneficiarioRequest();
+            CadastrarBeneficiarioRequest request = gerarCadastrarBeneficiarioRequest("012345678901234", "01234567890");
             Beneficiario beneficiario = gerarBeneficiario();
-            BeneficiarioResponse beneficiarioResponse = gerarBeneficiarioResponse();
 
             when(service.cadastrar(any(CadastrarBeneficiarioRequest.class))).thenReturn(beneficiario);
 
@@ -89,7 +88,7 @@ public class BeneficiarioControllerTest {
 
         @Test
         void deveGerarExcecao_QuandoCadastrarBeneficiario_CnsJaCadastrado() throws Exception {
-            CadastrarBeneficiarioRequest request = gerarCadastrarBeneficiarioRequest();
+            CadastrarBeneficiarioRequest request = gerarCadastrarBeneficiarioRequest("012345678901234", "01234567890");
 
             when(service.cadastrar(any(CadastrarBeneficiarioRequest.class)))
                     .thenThrow(new BeneficiarioCadastradoException(BENEFICIARIO_JA_EXISTE));
@@ -110,7 +109,7 @@ public class BeneficiarioControllerTest {
 
         @Test
         void deveGerarExcecao_QuandoCadastrarBeneficiario_CpfJaCadastrado() throws Exception {
-            CadastrarBeneficiarioRequest request = gerarCadastrarBeneficiarioRequest();
+            CadastrarBeneficiarioRequest request = gerarCadastrarBeneficiarioRequest("012345678901234", "01234567890");
 
             when(service.cadastrar(any(CadastrarBeneficiarioRequest.class)))
                     .thenThrow(new BeneficiarioCadastradoException(BENEFICIARIO_JA_EXISTE));

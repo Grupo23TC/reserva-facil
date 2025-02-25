@@ -2,11 +2,13 @@ package br.com.fiap.hackathon.reservafacil.config;
 
 import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.security.CustomAuthentication;
+import com.nimbusds.jose.Algorithm;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -18,6 +20,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
@@ -43,6 +47,14 @@ import java.util.UUID;
 @Configuration
 @EnableWebSecurity
 public class AuthorizationServerConfig {
+    @Value("${jwt.public.key}")
+    private RSAPublicKey publicKey;
+
+    @Value("${jwt.private.key}")
+    private RSAPrivateKey privateKey;
+
+    @Value("${jwt.key_id}")
+    private String keyId;
 
     @Bean
     @Order(1)
@@ -98,20 +110,21 @@ public class AuthorizationServerConfig {
         return new ImmutableJWKSet<>(jwkSet);
     }
 
-    private RSAKey gerarChaveRSA() throws Exception {
-        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-        // chave inicializada com 2048 bits
-        generator.initialize(2048);
-        KeyPair keyPair = generator.generateKeyPair();
-
-        RSAPublicKey chavePublica = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey chavePrivada = (RSAPrivateKey) keyPair.getPrivate();
+    private RSAKey gerarChaveRSA() {
+        RSAPublicKey chavePublica = publicKey;
+        RSAPrivateKey chavePrivada = privateKey;
 
         return new RSAKey
                 .Builder(chavePublica)
                 .privateKey(chavePrivada)
-                .keyID(UUID.randomUUID().toString())
+                .keyID(keyId)
+                .algorithm(new Algorithm("RS256"))
                 .build();
+    }
+
+    @Bean
+    public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
+        return new NimbusJwtEncoder(jwkSource);
     }
 
     @Bean

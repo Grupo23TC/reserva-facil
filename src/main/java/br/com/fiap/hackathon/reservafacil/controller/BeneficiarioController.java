@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BeneficiarioController {
     private final BeneficiarioService service;
-    private final SecurityService securityService;
 
     @PostMapping
     public ResponseEntity<BeneficiarioResponse> save(@Valid @RequestBody CadastrarBeneficiarioRequest request) {
