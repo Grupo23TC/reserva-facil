@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: reservafacil
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: root
+    password:
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-test.sql
+      platform: h2
+  # JPA e SQL
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    defer-datasource-initialization: true
+
+credenciais:
+  username: 123456789012345
+  password: 123
+  redirect_uri: http://localhost:8080/authorized
+  client_id: meuClient
+  client_secret: meuSecret
+  auth: bWV1Q2xpZW50Om1ldVNlY3JldA==
+
+jwt:
+  public:
+    key: classpath:app.pub
+  private:
+    key: classpath:app.key
+  key_id: e51cdfc1-40d7-4551-be0d-0fb7ebd793f1
+
