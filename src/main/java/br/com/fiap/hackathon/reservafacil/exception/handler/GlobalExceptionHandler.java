@@ -2,6 +2,12 @@ package br.com.fiap.hackathon.reservafacil.exception.handler;
 
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
+import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoEncontradoException;
+import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoPertencePrestadorException;
+import br.com.fiap.hackathon.reservafacil.exception.prestador.PrestadorNaoEncontradoException;
+import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaInvalidaException;
+import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaNaoDisponivelException;
+import br.com.fiap.hackathon.reservafacil.exception.reserva.ReservaNaoEncontradaException;
 import br.com.fiap.hackathon.reservafacil.exception.role.RoleNaoEncontradaException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoEncontradoException;
@@ -53,6 +59,49 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(status).body(erro);
     }
+
+    @ExceptionHandler(PrestadorNaoEncontradoException.class)
+    public ResponseEntity<ErroCustomizado> handlePrestadorNaoEncontradoException(PrestadorNaoEncontradoException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
+    @ExceptionHandler(MedicamentoNaoEncontradoException.class)
+    public ResponseEntity<ErroCustomizado> handleMedicamentoNaoEncontradoException(MedicamentoNaoEncontradoException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
+    @ExceptionHandler(ReservaNaoEncontradaException.class)
+    public ResponseEntity<ErroCustomizado> handleReservaNaoEncontradaException(ReservaNaoEncontradaException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
 
     @ExceptionHandler(RoleNaoEncontradaException.class)
     public ResponseEntity<ErroCustomizado> handleRoleNaoEncontradaException(RoleNaoEncontradaException ex, HttpServletRequest request) {
@@ -109,6 +158,49 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(status).body(erro);
     }
+
+    @ExceptionHandler(DataReservaInvalidaException.class)
+    public ResponseEntity<ErroCustomizado> handleDataReservaInvalidaException(DataReservaInvalidaException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
+    @ExceptionHandler(DataReservaNaoDisponivelException.class)
+    public ResponseEntity<ErroCustomizado> handleDataReservaNaoDisponivelException(DataReservaNaoDisponivelException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
+    @ExceptionHandler(MedicamentoNaoPertencePrestadorException.class)
+    public ResponseEntity<ErroCustomizado> handleMedicamentoNaoPertencePrestadorException(MedicamentoNaoPertencePrestadorException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErroCustomizado> methodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request){
