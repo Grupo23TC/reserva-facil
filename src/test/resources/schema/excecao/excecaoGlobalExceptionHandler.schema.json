@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "default": {},
+  "required": [
+    "horario",
+    "status",
+    "erro",
+    "rota"
+  ],
+  "properties": {
+    "horario": {
+      "type": "string",
+      "default": ""
+    },
+    "status": {
+      "type": "integer",
+      "default": 0
+    },
+    "erro": {
+      "type": "string",
+      "default": ""
+    },
+    "rota": {
+      "type": "string",
+      "default": ""
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "default": {},
+  "title": "Root Schema",
+  "required": [
+    "cns",
+    "nome",
+    "cpf",
+    "telefone",
+    "faixaEtariaEnum",
+    "endereco",
+    "genero",
+    "tipoMedicamento",
+    "ativo"
+  ],
+  "properties": {
+    "cns": {
+      "type": "string",
+      "default": "",
+      "title": "The cns Schema",
+      "examples": [
+        "987654321098744"
+      ]
+    },
+    "nome": {
+      "type": "string",
+      "default": "",
+      "title": "The nome Schema",
+      "examples": [
+        "José"
+      ]
+    },
+    "cpf": {
+      "type": "string",
+      "default": "",
+      "title": "The cpf Schema",
+      "examples": [
+        "88535242007"
+      ]
+    },
+    "telefone": {
+      "type": "string",
+      "default": "",
+      "title": "The telefone Schema",
+      "examples": [
+        "11963852474"
+      ]
+    },
+    "faixaEtariaEnum": {
+      "type": "string",
+      "default": "",
+      "title": "The faixaEtariaEnum Schema",
+      "examples": [
+        "FAIXA_59_MAIS"
+      ]
+    },
+    "endereco": {
+      "type": "object",
+      "default": {},
+      "title": "The endereco Schema",
+      "required": [
+        "logradouro",
+        "bairro",
+        "cidade",
+        "estado",
+        "complemento"
+      ],
+      "properties": {
+        "logradouro": {
+          "type": "string",
+          "default": "",
+          "title": "The logradouro Schema",
+          "examples": [
+            "Avenida São Miguel"
+          ]
+        },
+        "bairro": {
+          "type": "string",
+          "default": "",
+          "title": "The bairro Schema",
+          "examples": [
+            "São Miguel"
+          ]
+        },
+        "cidade": {
+          "type": "string",
+          "default": "",
+          "title": "The cidade Schema",
+          "examples": [
+            "São Paulo"
+          ]
+        },
+        "estado": {
+          "type": "string",
+          "default": "",
+          "title": "The estado Schema",
+          "examples": [
+            "SP"
+          ]
+        },
+        "complemento": {
+          "type": "string",
+          "default": "",
+          "title": "The complemento Schema",
+          "examples": [
+            "sem complemento"
+          ]
+        }
+      },
+      "examples": [{
+        "logradouro": "Avenida São Miguel",
+        "bairro": "São Miguel",
+        "cidade": "São Paulo",
+        "estado": "SP",
+        "complemento": "sem complemento"
+      }]
+    },
+    "genero": {
+      "type": "string",
+      "default": "",
+      "title": "The genero Schema",
+      "examples": [
+        "MASCULINO"
+      ]
+    },
+    "tipoMedicamento": {
+      "type": "string",
+      "default": "",
+      "title": "The tipoMedicamento Schema",
+      "examples": [
+        "TARJA_PRETA"
+      ]
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": false,
+      "title": "The ativo Schema",
+      "examples": [
+        true
+      ]
+    }
+  },
+  "examples": [{
+    "cns": "987654321098744",
+    "nome": "José",
+    "cpf": "88535242007",
+    "telefone": "11963852474",
+    "faixaEtariaEnum": "FAIXA_59_MAIS",
+    "endereco": {
+      "logradouro": "Avenida São Miguel",
+      "bairro": "São Miguel",
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "complemento": "sem complemento"
+    },
+    "genero": "MASCULINO",
+    "tipoMedicamento": "TARJA_PRETA",
+    "ativo": true
+  }]
+}
