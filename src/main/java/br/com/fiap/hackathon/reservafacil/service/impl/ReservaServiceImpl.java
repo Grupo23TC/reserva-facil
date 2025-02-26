@@ -94,6 +94,18 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     @Transactional
+    public List<ReservaResponseDTO> listarReservasBeneficiario(String cns) {
+        return reservaRepository.findAllByBeneficiario(cns).stream().map(ReservaMapper::toReservaResponseDTO).toList();
+    }
+
+    @Override
+    @Transactional
+    public List<ReservaResponseDTO> listarReservasPrestador(UUID prestadorId) {
+        return reservaRepository.findAllByPrestadorId(prestadorId).stream().map(ReservaMapper::toReservaResponseDTO).toList();
+    }
+
+    @Override
+    @Transactional
     public List<String> listarHorariosDisponiveisPeriodoPrestador(UUID prestadorId, LocalDateTime dataInicial, LocalDateTime dataFinal) {
 
         List<LocalDateTime> intervalos = gerarIntervalosComerciais(dataInicial, dataFinal);

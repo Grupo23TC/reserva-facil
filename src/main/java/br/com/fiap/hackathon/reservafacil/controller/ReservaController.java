@@ -35,6 +35,16 @@ public class ReservaController {
         return ResponseEntity.status(HttpStatus.OK).body(service.listarReservas());
     }
 
+    @GetMapping("/beneficiario/{cns}")
+    public ResponseEntity<List<ReservaResponseDTO>> listarReservasBeneficiarios(@PathVariable String cns) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.listarReservasBeneficiario(cns));
+    }
+
+    @GetMapping("/prestador/{prestadorId}")
+    public ResponseEntity<List<ReservaResponseDTO>> listarReservasPrestador(@PathVariable UUID prestadorId) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.listarReservasPrestador(prestadorId));
+    }
+
     @GetMapping("/horariosDisponiveis")
     public ResponseEntity<List<String>> listarHorariosDisponiveisPeriodoPrestador(@RequestParam UUID prestadorId,
                                                                                          @RequestParam LocalDateTime dataInicio,
