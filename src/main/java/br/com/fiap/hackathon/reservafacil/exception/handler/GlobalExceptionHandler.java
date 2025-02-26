@@ -147,7 +147,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsuarioNaoIguaisException.class)
     public ResponseEntity<ErroCustomizado> handleUsuarioNaoIguaisException(UsuarioNaoIguaisException ex, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.FORBIDDEN;
 
         ErroCustomizado erro = new ErroCustomizado(
                 LocalDateTime.now(),

@@ -1,7 +1,9 @@
 package br.com.fiap.hackathon.reservafacil.controller;
 
+import br.com.fiap.hackathon.reservafacil.mapper.UsuarioMapper;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.AtualizarSenhaRequest;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.CadastrarUsuarioRequest;
+import br.com.fiap.hackathon.reservafacil.model.dto.usuario.UsuarioResponse;
 import br.com.fiap.hackathon.reservafacil.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +18,10 @@ public class UsuarioController {
     private final UsuarioService service;
 
     @PostMapping
-    public ResponseEntity<Void> cadastrar(@Valid @RequestBody CadastrarUsuarioRequest request) {
-        service.salvarUsuario(request.cns(), request.senha(), request.role());
+    public ResponseEntity<UsuarioResponse> cadastrar(@Valid @RequestBody CadastrarUsuarioRequest request) {
+        var usuario = service.salvarUsuario(request.cns(), request.senha(), request.role());
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toUsuarioResponse(usuario));
     }
 
     @PatchMapping("/{cns}")
@@ -33,16 +35,16 @@ public class UsuarioController {
     }
 
     @PutMapping("/{cns}")
-    public ResponseEntity<Void> ativar(@PathVariable String cns) {
-        service.ativar(cns);
+    public ResponseEntity<UsuarioResponse> ativar(@PathVariable String cns) {
+        var usuario = service.ativar(cns);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(UsuarioMapper.toUsuarioResponse(usuario));
     }
 
     @DeleteMapping("/{cns}")
-    public ResponseEntity<Void> intativar(@PathVariable String cns) {
-        service.desativar(cns);
+    public ResponseEntity<UsuarioResponse> intativar(@PathVariable String cns) {
+        var usuario = service.desativar(cns);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(UsuarioMapper.toUsuarioResponse(usuario));
     }
 }

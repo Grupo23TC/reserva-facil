@@ -12,4 +12,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
         SELECT u FROM Usuario u JOIN FETCH u.roles WHERE u.cns = :cns
     """)
     Optional<Usuario> findByCns(String cns);
+
+    boolean existsByCns(String cns);
 }
