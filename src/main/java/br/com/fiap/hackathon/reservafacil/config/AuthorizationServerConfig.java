@@ -47,15 +47,6 @@ import java.util.UUID;
 @Configuration
 @EnableWebSecurity
 public class AuthorizationServerConfig {
-    @Value("${jwt.public.key}")
-    private RSAPublicKey publicKey;
-
-    @Value("${jwt.private.key}")
-    private RSAPrivateKey privateKey;
-
-    @Value("${jwt.key_id}")
-    private String keyId;
-
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -110,14 +101,19 @@ public class AuthorizationServerConfig {
         return new ImmutableJWKSet<>(jwkSet);
     }
 
-    private RSAKey gerarChaveRSA() {
-        RSAPublicKey chavePublica = publicKey;
-        RSAPrivateKey chavePrivada = privateKey;
+    private RSAKey gerarChaveRSA() throws Exception {
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+        // chave inicializada com 2048 bits
+        generator.initialize(2048);
+        KeyPair keyPair = generator.generateKeyPair();
+
+        RSAPublicKey chavePublica = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey chavePrivada = (RSAPrivateKey) keyPair.getPrivate();
 
         return new RSAKey
                 .Builder(chavePublica)
                 .privateKey(chavePrivada)
-                .keyID(keyId)
+                .keyID(UUID.randomUUID().toString())
                 .algorithm(new Algorithm("RS256"))
                 .build();
     }

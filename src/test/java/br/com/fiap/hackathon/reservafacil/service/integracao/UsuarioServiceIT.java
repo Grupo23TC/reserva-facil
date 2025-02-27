@@ -7,6 +7,7 @@ import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisExce
 import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.service.UsuarioService;
+import br.com.fiap.hackathon.reservafacil.service.impl.UsuarioServiceImpl;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,11 +26,11 @@ public class UsuarioServiceIT {
     private static final String USUARIO_JA_CADASTRADO = "CNS já cadastrado.";
     private static final String ROLE_NAO_ENCONTRADA = "Não foi possível encontrar a role.";
     private static final String NAO_FOI_POSSIVEL_ALTERAR_A_SENHA = "Não foi possível alterar a senha.";
-    private static final String NAO_FOI_POSSIVEL_DESATIVAR_USUARIO = "Não foi possível desativar usuário.";
+    private static final  String NAO_FOI_POSSIVEL_DESATIVAR_USUARIO = "Não foi possível desativar usuário.";
     private static final String NAO_FOI_POSSIVEL_ATIVAR_USUARIO = "Não foi possível ativar usuário.";
 
     @Autowired
-    private UsuarioService service;
+    private UsuarioServiceImpl service;
 
     @Nested
     class CadastraUsuario {

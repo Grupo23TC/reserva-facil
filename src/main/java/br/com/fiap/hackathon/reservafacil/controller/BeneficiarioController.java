@@ -4,8 +4,7 @@ import br.com.fiap.hackathon.reservafacil.mapper.BeneficiarioMapper;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.BeneficiarioResponse;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBeneficiarioRequest;
-import br.com.fiap.hackathon.reservafacil.security.SecurityService;
-import br.com.fiap.hackathon.reservafacil.service.BeneficiarioService;
+import br.com.fiap.hackathon.reservafacil.service.impl.BeneficiarioServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/beneficiarios")
 @RequiredArgsConstructor
 public class BeneficiarioController {
-    private final BeneficiarioService service;
+    private final BeneficiarioServiceImpl service;
 
     @PostMapping
     public ResponseEntity<BeneficiarioResponse> save(@Valid @RequestBody CadastrarBeneficiarioRequest request) {

@@ -9,6 +9,7 @@ import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.BeneficiarioResponse;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBeneficiarioRequest;
 import br.com.fiap.hackathon.reservafacil.service.BeneficiarioService;
+import br.com.fiap.hackathon.reservafacil.service.impl.BeneficiarioServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,7 +36,7 @@ public class BeneficiarioControllerTest {
     private static final String BENEFICIARIO_JA_EXISTE = "Beneficiário já cadastrado";
 
     @Mock
-    private BeneficiarioService service;
+    private BeneficiarioServiceImpl service;
 
     @InjectMocks
     private BeneficiarioController controller;

@@ -1,7 +1,7 @@
 package br.com.fiap.hackathon.reservafacil.security;
 
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
-import br.com.fiap.hackathon.reservafacil.service.UsuarioService;
+import br.com.fiap.hackathon.reservafacil.service.impl.UsuarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final PasswordEncoder passwordEncoder;
-    private final UsuarioService usuarioService;
+    private final UsuarioServiceImpl usuarioService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

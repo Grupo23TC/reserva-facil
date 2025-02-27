@@ -30,10 +30,3 @@ credenciais:
   client_secret: meuSecret
   auth: bWV1Q2xpZW50Om1ldVNlY3JldA==
 
-jwt:
-  public:
-    key: classpath:app.pub
-  private:
-    key: classpath:app.key
-  key_id: e51cdfc1-40d7-4551-be0d-0fb7ebd793f1
-

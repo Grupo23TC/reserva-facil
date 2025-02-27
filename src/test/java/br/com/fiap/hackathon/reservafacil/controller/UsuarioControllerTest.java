@@ -9,7 +9,7 @@ import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisExce
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.AtualizarSenhaRequest;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.CadastrarUsuarioRequest;
-import br.com.fiap.hackathon.reservafacil.service.UsuarioService;
+import br.com.fiap.hackathon.reservafacil.service.impl.UsuarioServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -40,7 +40,7 @@ public class UsuarioControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private UsuarioService service;
+    private UsuarioServiceImpl service;
 
     @InjectMocks
     private UsuarioController controller;
