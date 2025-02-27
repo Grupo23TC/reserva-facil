@@ -10,6 +10,7 @@ import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBenefi
 import br.com.fiap.hackathon.reservafacil.repository.BeneficiarioRepository;
 import br.com.fiap.hackathon.reservafacil.repository.RoleRepository;
 import br.com.fiap.hackathon.reservafacil.security.SecurityService;
+import br.com.fiap.hackathon.reservafacil.service.impl.BeneficiarioServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -49,7 +50,7 @@ public class BeneficiarioServiceTest {
     private BeneficiarioRepository repository;
 
     @InjectMocks
-    private BeneficiarioService service;
+    private BeneficiarioServiceImpl service;
 
     private AutoCloseable openMocks;
 

@@ -1,7 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.security;
 
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
-import br.com.fiap.hackathon.reservafacil.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

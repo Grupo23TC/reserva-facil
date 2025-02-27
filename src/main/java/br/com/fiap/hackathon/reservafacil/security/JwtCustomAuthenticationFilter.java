@@ -1,7 +1,7 @@
 package br.com.fiap.hackathon.reservafacil.security;
 
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
-import br.com.fiap.hackathon.reservafacil.service.UsuarioService;
+import br.com.fiap.hackathon.reservafacil.service.impl.UsuarioServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class JwtCustomAuthenticationFilter extends OncePerRequestFilter {
-    private final UsuarioService service;
+    private final UsuarioServiceImpl service;
 
     @Override
     protected void doFilterInternal(

@@ -1,7 +1,7 @@
 package br.com.fiap.hackathon.reservafacil.security;
 
 import br.com.fiap.hackathon.reservafacil.model.Client;
-import br.com.fiap.hackathon.reservafacil.service.ClientService;
+import br.com.fiap.hackathon.reservafacil.service.impl.ClientServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class CustomRegisteredClientRepository implements RegisteredClientRepository {
-    private final ClientService service;
+    private final ClientServiceImpl service;
     private final TokenSettings tokenSettings;
     private final ClientSettings clientSettings;
 
