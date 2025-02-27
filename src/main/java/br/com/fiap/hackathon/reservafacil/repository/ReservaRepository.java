@@ -18,4 +18,9 @@ public interface ReservaRepository extends JpaRepository<Reserva, UUID> {
             "GROUP BY r.dataReserva HAVING COUNT(r) >= 3")
     List<LocalDateTime> findByPrestadorIdAndNaoDisponivelPeriodo(UUID prestadorId, LocalDateTime dataInicio, LocalDateTime dataFim);
 
+    @Query("SELECT r from Reserva r WHERE r.beneficiario.cns = :cns")
+    List<Reserva> findAllByBeneficiario(String cns);
+
+    List<Reserva> findAllByPrestadorId(UUID prestadorId);
+
 }

@@ -15,6 +15,10 @@ public interface ReservaService {
 
     List<ReservaResponseDTO> listarReservas();
 
+    List<ReservaResponseDTO> listarReservasBeneficiario(String cns);
+
+    List<ReservaResponseDTO> listarReservasPrestador(UUID prestadorId);
+
     void deletarReserva(UUID id);
 
     List<String> listarHorariosDisponiveisPeriodoPrestador(UUID prestadorId, LocalDateTime dataInicial, LocalDateTime dataFinal);

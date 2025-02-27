@@ -1,4 +1,4 @@
-package br.com.fiap.hackathon.reservafacil.Util;
+package br.com.fiap.hackathon.reservafacil.util;
 
 import br.com.fiap.hackathon.reservafacil.model.Endereco;
 import br.com.fiap.hackathon.reservafacil.model.dto.endereco.CadastrarEnderecoRequest;

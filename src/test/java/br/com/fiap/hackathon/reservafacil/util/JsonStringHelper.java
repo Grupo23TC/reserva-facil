@@ -1,4 +1,4 @@
-package br.com.fiap.hackathon.reservafacil.Util;
+package br.com.fiap.hackathon.reservafacil.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

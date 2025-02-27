@@ -22,10 +22,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static br.com.fiap.hackathon.reservafacil.Util.BeneficiarioUtil.gerarBeneficiario;
-import static br.com.fiap.hackathon.reservafacil.Util.BeneficiarioUtil.gerarCadastrarBeneficiarioRequest;
-import static br.com.fiap.hackathon.reservafacil.Util.RoleUtil.gerarRole;
-import static br.com.fiap.hackathon.reservafacil.Util.UsuarilUtil.gerarUsuario;
+import static br.com.fiap.hackathon.reservafacil.util.BeneficiarioUtil.gerarBeneficiario;
+import static br.com.fiap.hackathon.reservafacil.util.BeneficiarioUtil.gerarCadastrarBeneficiarioRequest;
+import static br.com.fiap.hackathon.reservafacil.util.RoleUtil.gerarRole;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarUsuario;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;

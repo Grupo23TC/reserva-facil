@@ -1,4 +1,4 @@
-package br.com.fiap.hackathon.reservafacil.Util;
+package br.com.fiap.hackathon.reservafacil.util;
 
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.BeneficiarioResponse;
@@ -7,9 +7,9 @@ import br.com.fiap.hackathon.reservafacil.model.enums.FaixaEtariaEnum;
 import br.com.fiap.hackathon.reservafacil.model.enums.GeneroEnum;
 import br.com.fiap.hackathon.reservafacil.model.enums.TipoMedicamentoEnum;
 
-import static br.com.fiap.hackathon.reservafacil.Util.EnderecoUtil.*;
-import static br.com.fiap.hackathon.reservafacil.Util.UsuarilUtil.gerarCadastrarUsuarioRequest;
-import static br.com.fiap.hackathon.reservafacil.Util.UsuarilUtil.gerarUsuario;
+import static br.com.fiap.hackathon.reservafacil.util.EnderecoUtil.*;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarCadastrarUsuarioRequest;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarUsuario;
 
 public class BeneficiarioUtil {
     public static CadastrarBeneficiarioRequest gerarCadastrarBeneficiarioRequest() {

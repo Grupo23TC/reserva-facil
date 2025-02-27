@@ -1,6 +1,7 @@
 package br.com.fiap.hackathon.reservafacil.service.impl;
 
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoPertencePrestadorException;
+import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoRestritoException;
 import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaInvalidaException;
 import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaNaoDisponivelException;
 import br.com.fiap.hackathon.reservafacil.exception.reserva.ReservaNaoEncontradaException;
@@ -11,6 +12,7 @@ import br.com.fiap.hackathon.reservafacil.model.Prestador;
 import br.com.fiap.hackathon.reservafacil.model.Reserva;
 import br.com.fiap.hackathon.reservafacil.model.dto.reserva.CadastrarReservaRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.reserva.ReservaResponseDTO;
+import br.com.fiap.hackathon.reservafacil.model.enums.TipoMedicamentoEnum;
 import br.com.fiap.hackathon.reservafacil.repository.ReservaRepository;
 import br.com.fiap.hackathon.reservafacil.service.BeneficiarioService;
 import br.com.fiap.hackathon.reservafacil.service.MedicamentoService;
@@ -76,6 +78,12 @@ public class ReservaServiceImpl implements ReservaService {
             throw new MedicamentoNaoPertencePrestadorException("O medicamento de id:" + medicamento.getId() + " não pertence ao prestador " + prestador.getNome() + ".");
         }
 
+        if (!TipoMedicamentoEnum.SEM_TARJA.equals(medicamento.getTipoMedicamentoEnum()) &&
+                !TipoMedicamentoEnum.TARJA_AMARELA.equals(medicamento.getTipoMedicamentoEnum()) &&
+                !beneficiario.getTipoMedicamento().equals(medicamento.getTipoMedicamentoEnum())) {
+            throw new MedicamentoRestritoException("Este medicamento é controlado e só pode ser reservado por beneficiários com receita específica");
+        }
+
         return ReservaMapper.toReservaResponseDTO(reservaRepository.save(reserva));
     }
 
@@ -90,6 +98,18 @@ public class ReservaServiceImpl implements ReservaService {
     @Transactional
     public List<ReservaResponseDTO> listarReservas() {
         return reservaRepository.findAll().stream().map(ReservaMapper::toReservaResponseDTO).toList();
+    }
+
+    @Override
+    @Transactional
+    public List<ReservaResponseDTO> listarReservasBeneficiario(String cns) {
+        return reservaRepository.findAllByBeneficiario(cns).stream().map(ReservaMapper::toReservaResponseDTO).toList();
+    }
+
+    @Override
+    @Transactional
+    public List<ReservaResponseDTO> listarReservasPrestador(UUID prestadorId) {
+        return reservaRepository.findAllByPrestadorId(prestadorId).stream().map(ReservaMapper::toReservaResponseDTO).toList();
     }
 
     @Override
