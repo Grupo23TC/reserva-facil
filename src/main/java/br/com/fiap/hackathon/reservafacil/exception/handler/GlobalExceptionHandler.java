@@ -4,6 +4,7 @@ import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCad
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoPertencePrestadorException;
+import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoRestritoException;
 import br.com.fiap.hackathon.reservafacil.exception.prestador.PrestadorNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaInvalidaException;
 import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaNaoDisponivelException;
@@ -189,6 +190,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MedicamentoNaoPertencePrestadorException.class)
     public ResponseEntity<ErroCustomizado> handleMedicamentoNaoPertencePrestadorException(MedicamentoNaoPertencePrestadorException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
+    @ExceptionHandler(MedicamentoRestritoException.class)
+    public ResponseEntity<ErroCustomizado> handleMedicamentoRestritoException(MedicamentoRestritoException ex, HttpServletRequest request) {
         HttpStatus status = HttpStatus.CONFLICT;
 
         ErroCustomizado erro = new ErroCustomizado(
