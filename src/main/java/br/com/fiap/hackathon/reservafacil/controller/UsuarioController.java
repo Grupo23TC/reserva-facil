@@ -4,7 +4,7 @@ import br.com.fiap.hackathon.reservafacil.mapper.UsuarioMapper;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.AtualizarSenhaRequest;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.CadastrarUsuarioRequest;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.UsuarioResponse;
-import br.com.fiap.hackathon.reservafacil.service.UsuarioService;
+import br.com.fiap.hackathon.reservafacil.service.impl.UsuarioServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/usuarios")
 @RequiredArgsConstructor
 public class UsuarioController {
-    private final UsuarioService service;
+    private final UsuarioServiceImpl service;
 
     @PostMapping
     public ResponseEntity<UsuarioResponse> cadastrar(@Valid @RequestBody CadastrarUsuarioRequest request) {

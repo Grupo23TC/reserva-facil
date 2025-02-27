@@ -1,5 +1,4 @@
-: classpath:app.pub
-  private:spring:
+spring:
   application:
     name: reservafacil
   profiles:

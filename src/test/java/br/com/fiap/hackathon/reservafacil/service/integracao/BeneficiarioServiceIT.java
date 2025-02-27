@@ -7,6 +7,7 @@ import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisExce
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBeneficiarioRequest;
 import br.com.fiap.hackathon.reservafacil.service.BeneficiarioService;
+import br.com.fiap.hackathon.reservafacil.service.impl.BeneficiarioServiceImpl;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +27,7 @@ public class BeneficiarioServiceIT {
     private static final String BENEFICIARIO_NAO_ENCONTRADO = "Beneficiário não encontrado";
 
     @Autowired
-    private BeneficiarioService service;
+    private BeneficiarioServiceImpl service;
 
     @Nested
     class CadastraBeneficiario {

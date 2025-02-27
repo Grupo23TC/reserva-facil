@@ -9,6 +9,7 @@ import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.repository.RoleRepository;
 import br.com.fiap.hackathon.reservafacil.repository.UsuarioRepository;
 import br.com.fiap.hackathon.reservafacil.security.SecurityService;
+import br.com.fiap.hackathon.reservafacil.service.impl.UsuarioServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -48,7 +49,7 @@ public class UsuarioServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private UsuarioService service;
+    private UsuarioServiceImpl service;
 
     private AutoCloseable openMocks;
 
