@@ -1,11 +1,10 @@
 package br.com.fiap.hackathon.reservafacil.controller;
 
-import br.com.fiap.hackathon.reservafacil.Util.JsonStringHelper;
+import br.com.fiap.hackathon.reservafacil.util.JsonStringHelper;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.handler.GlobalExceptionHandler;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
-import br.com.fiap.hackathon.reservafacil.mapper.BeneficiarioMapper;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.BeneficiarioResponse;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBeneficiarioRequest;
@@ -23,7 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static br.com.fiap.hackathon.reservafacil.Util.BeneficiarioUtil.*;
+import static br.com.fiap.hackathon.reservafacil.util.BeneficiarioUtil.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

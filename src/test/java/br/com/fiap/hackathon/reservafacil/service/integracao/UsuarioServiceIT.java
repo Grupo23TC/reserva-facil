@@ -1,6 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.service.integracao;
 
-import br.com.fiap.hackathon.reservafacil.Util.AuthUtil;
+import br.com.fiap.hackathon.reservafacil.util.AuthUtil;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;

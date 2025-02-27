@@ -1,4 +1,4 @@
-package br.com.fiap.hackathon.reservafacil.Util;
+package br.com.fiap.hackathon.reservafacil.util;
 
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.AtualizarSenhaRequest;
@@ -7,7 +7,7 @@ import br.com.fiap.hackathon.reservafacil.model.dto.usuario.CadastrarUsuarioRequ
 import java.util.Set;
 import java.util.UUID;
 
-import static br.com.fiap.hackathon.reservafacil.Util.RoleUtil.gerarRole;
+import static br.com.fiap.hackathon.reservafacil.util.RoleUtil.gerarRole;
 
 public class UsuarilUtil {
     public static CadastrarUsuarioRequest gerarCadastrarUsuarioRequest() {

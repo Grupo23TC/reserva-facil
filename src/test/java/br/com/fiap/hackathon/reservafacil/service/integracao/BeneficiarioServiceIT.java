@@ -1,6 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.service.integracao;
 
-import br.com.fiap.hackathon.reservafacil.Util.AuthUtil;
+import br.com.fiap.hackathon.reservafacil.util.AuthUtil;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static br.com.fiap.hackathon.reservafacil.Util.BeneficiarioUtil.gerarCadastrarBeneficiarioRequest;
+import static br.com.fiap.hackathon.reservafacil.util.BeneficiarioUtil.gerarCadastrarBeneficiarioRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
