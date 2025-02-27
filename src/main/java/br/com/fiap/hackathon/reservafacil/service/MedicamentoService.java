@@ -13,6 +13,7 @@ public interface MedicamentoService {
     MedicamentoResponseDTO cadastrarMedicamento(CadastrarMedicamentoRequestDTO dto);
     MedicamentoResponseDTO atualizarMedicamento(UUID id, AtualizarMedicamentoRequestDTO dto);
     void excluirMedicamento(UUID id);
+
     Medicamento buscarMedicamento(UUID id);
     MedicamentoResponseDTO buscarMedicamentoDTO(UUID id);
     List<MedicamentoResponseDTO> listarMedicamentos();

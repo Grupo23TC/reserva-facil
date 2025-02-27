@@ -17,21 +17,27 @@ public class Medicamento {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "nome")
     private String nome;
 
-    private TipoMedicamentoEnum tipo;
-
-    private Integer quantidade;
-
-    private LocalDate validade;
-
+    @Column(name = "lote")
     private String lote;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Documento> documentos;
 
+    @Column(name = "quantidade")
+    private int quantidade;
+
+    @Column(name = "validade")
+    private LocalDate validade;
+
+    @Column(name = "tipo_medicamento")
+    private TipoMedicamentoEnum tipoMedicamentoEnum;
+
     @ManyToOne
-    @JoinColumn(name = "prestador_id")
+    @JoinColumn(name="prestadorId")
     private Prestador prestador;
+
 }
 
