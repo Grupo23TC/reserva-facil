@@ -24,7 +24,7 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     private MedicamentoRepository medicamentoRepository;
 
     @Autowired
-    private PrestadorService prestadorService;
+    private PrestadorServiceImpl prestadorService;
 
     @Override
     @Transactional
