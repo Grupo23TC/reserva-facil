@@ -11,7 +11,7 @@ public class MedicamentoMapper {
 
     public static Medicamento toMedicamento(CadastrarMedicamentoRequestDTO dto) {
         Medicamento medicamento = new Medicamento();
-        medicamento.setTipo(dto.tipo());
+        medicamento.setTipoMedicamentoEnum(dto.tipo());
         medicamento.setNome(dto.nome());
         medicamento.setQuantidade(dto.quantidade());
         medicamento.setValidade(dto.validade());
@@ -28,7 +28,7 @@ public class MedicamentoMapper {
         return new MedicamentoResponseDTO(
                 medicamento.getId(),
                 medicamento.getNome(),
-                medicamento.getTipo(),
+                medicamento.getTipoMedicamentoEnum(),
                 medicamento.getQuantidade(),
                 medicamento.getValidade(),
                 medicamento.getLote(),
