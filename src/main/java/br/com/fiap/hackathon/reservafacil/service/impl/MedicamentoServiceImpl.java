@@ -24,7 +24,7 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     private MedicamentoRepository medicamentoRepository;
 
     @Autowired
-    private PrestadorServiceImpl prestadorService;
+    private PrestadorService prestadorService;
 
     @Override
     @Transactional
@@ -59,6 +59,7 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     }
 
     @Override
+    @Transactional
     public Medicamento buscarMedicamento(UUID id) {
         return medicamentoRepository.findById(id)
                 .orElseThrow(() -> new MedicamentoNaoEncontradoException("Medicamento id: " + id + " não encontrado."));

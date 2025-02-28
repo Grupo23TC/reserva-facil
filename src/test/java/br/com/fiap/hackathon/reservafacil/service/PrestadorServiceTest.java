@@ -1,6 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.service;
 
-import br.com.fiap.hackathon.reservafacil.Util.PrestadorUtil;
+import br.com.fiap.hackathon.reservafacil.util.PrestadorUtil;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.CadastrarPrestadorRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.PrestadorResponseDTO;
 import br.com.fiap.hackathon.reservafacil.service.impl.PrestadorServiceImpl;
