@@ -1,5 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.service.impl;
 
+import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoEsgotadoException;
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoPertencePrestadorException;
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoRestritoException;
 import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaInvalidaException;
@@ -10,6 +11,7 @@ import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.Medicamento;
 import br.com.fiap.hackathon.reservafacil.model.Prestador;
 import br.com.fiap.hackathon.reservafacil.model.Reserva;
+import br.com.fiap.hackathon.reservafacil.model.dto.medicamento.AtualizarMedicamentoRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.reserva.CadastrarReservaRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.reserva.ReservaResponseDTO;
 import br.com.fiap.hackathon.reservafacil.model.enums.TipoMedicamentoEnum;
@@ -48,7 +50,7 @@ public class ReservaServiceImpl implements ReservaService {
     public ReservaResponseDTO cadastrarReserva(CadastrarReservaRequestDTO dto) {
 
         if (dto.dataReserva() == null || dto.dataReserva().isBefore(LocalDateTime.now())) {
-            throw new DataReservaInvalidaException("Data da reserva inválida, tente novamente.");
+            throw new DataReservaInvalidaException("Data da reserva precisa ser futura, tente novamente.");
         }
 
         // Validação dos minutos (devem ser 00, 15, 30 ou 45)
@@ -67,12 +69,16 @@ public class ReservaServiceImpl implements ReservaService {
         reserva.setPrestador(prestador);
 
         List<Reserva> reservas = reservaRepository.findByPrestadorAndDataReserva(dto.idPrestador(), dto.dataReserva());
-        if (reservas != null && !reservas.isEmpty() && reservas.size() > 2) { // o Prestador pode receber até 3 beneficiarios em um determinado horario
+        if (reservas != null && !reservas.isEmpty() && reservas.size() >= 3) { // o Prestador pode receber até 3 beneficiarios em um determinado horario
             throw new DataReservaNaoDisponivelException("Data/hora escolhida não esta disponível para o prestador: " + prestador.getNome() + ", tente novamente.");
         }
 
         Medicamento medicamento = medicamentoService.buscarMedicamento(dto.idMedicamento());
         reserva.setMedicamento(medicamento);
+
+        if (medicamento.getQuantidade() == 0) {
+            throw new MedicamentoEsgotadoException("Medicamento solicitado está esgotado");
+        }
 
         if (medicamento.getPrestador().getId() != prestador.getId()) {
             throw new MedicamentoNaoPertencePrestadorException("O medicamento de id:" + medicamento.getId() + " não pertence ao prestador " + prestador.getNome() + ".");
@@ -83,6 +89,10 @@ public class ReservaServiceImpl implements ReservaService {
                 !beneficiario.getTipoMedicamento().equals(medicamento.getTipoMedicamentoEnum())) {
             throw new MedicamentoRestritoException("Este medicamento é controlado e só pode ser reservado por beneficiários com receita específica");
         }
+
+        // Decrementar estoque
+        AtualizarMedicamentoRequestDTO medDTO = new AtualizarMedicamentoRequestDTO(null, medicamento.getQuantidade() - 1, null);
+        medicamentoService.atualizarMedicamento(medicamento.getId(), medDTO);
 
         return ReservaMapper.toReservaResponseDTO(reservaRepository.save(reserva));
     }
@@ -116,6 +126,8 @@ public class ReservaServiceImpl implements ReservaService {
     @Transactional
     public List<String> listarHorariosDisponiveisPeriodoPrestador(UUID prestadorId, LocalDateTime dataInicial, LocalDateTime dataFinal) {
 
+        prestadorService.buscarPrestadorPorId(prestadorId);
+
         List<LocalDateTime> intervalos = gerarIntervalosComerciais(dataInicial, dataFinal);
 
         List<LocalDateTime> horariosNaoDisponiveis = reservaRepository.findByPrestadorIdAndNaoDisponivelPeriodo(prestadorId, dataInicial, dataFinal);
@@ -126,7 +138,13 @@ public class ReservaServiceImpl implements ReservaService {
     @Override
     @Transactional
     public void deletarReserva(UUID id) {
-        buscarReserva(id);
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new ReservaNaoEncontradaException("Reserva de id: " + id + " não encontrada."));
+
+        // Incrementar estoque
+        AtualizarMedicamentoRequestDTO medDTO = new AtualizarMedicamentoRequestDTO(null, reserva.getMedicamento().getQuantidade() + 1, null);
+        medicamentoService.atualizarMedicamento(reserva.getMedicamento().getId(), medDTO);
+
         reservaRepository.deleteById(id);
     }
 

@@ -1,9 +1,7 @@
 package br.com.fiap.hackathon.reservafacil.service.impl;
 
-import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.prestador.PrestadorNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.mapper.PrestadorMapper;
-import br.com.fiap.hackathon.reservafacil.model.Medicamento;
 import br.com.fiap.hackathon.reservafacil.model.Prestador;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.AtualizarPrestadorRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.CadastrarPrestadorRequestDTO;
@@ -11,6 +9,7 @@ import br.com.fiap.hackathon.reservafacil.model.dto.prestador.PrestadorResponseD
 import br.com.fiap.hackathon.reservafacil.repository.MedicamentoRepository;
 import br.com.fiap.hackathon.reservafacil.repository.PrestadorRepository;
 import br.com.fiap.hackathon.reservafacil.service.PrestadorService;
+import br.com.fiap.hackathon.reservafacil.utils.StringUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -70,52 +68,26 @@ public class PrestadorServiceImpl implements PrestadorService {
     }
     @Override
     @Transactional
-    public List<PrestadorResponseDTO> buscarPrestadorPorLocalidade(String localidade) {
-        return prestadorRepository.findByLogradouro(localidade).stream().map(PrestadorMapper::toPrestadorResponseDTO).toList();
+    public List<PrestadorResponseDTO> buscarPrestadorPorCidade(String cidade) {
+        cidade = StringUtils.addLikeQueryCondition(cidade);
+        return prestadorRepository.findByCidade(cidade).stream().map(PrestadorMapper::toPrestadorResponseDTO).toList();
     }
     @Override
     @Transactional
-    public List<PrestadorResponseDTO> buscarPrestadoresPorMedicamentoELocalidade(String localidade, String nomeMedicamento) {
-        List<Prestador> prestadores = prestadorRepository.findByLocalidadeAndNomeMedicamento(localidade, nomeMedicamento);
-
-        List<Prestador> prestadoresFiltrados = filtrarPrestadoresDisponiveis(prestadores, nomeMedicamento);
-
-        return PrestadorMapper.toPrestadorResponseDTOList(prestadoresFiltrados);
+    public List<PrestadorResponseDTO> buscarPrestadoresPorMedicamentoECidade(String cidade, String nomeMedicamento) {
+        cidade = StringUtils.addLikeQueryCondition(cidade);
+        nomeMedicamento = StringUtils.addLikeQueryCondition(nomeMedicamento);
+        List<Prestador> prestadores = prestadorRepository.findByCidadeAndNomeMedicamento(cidade, nomeMedicamento);
+        return PrestadorMapper.toPrestadorResponseDTOList(prestadores);
     }
 
     @Override
     @Transactional
     public List<PrestadorResponseDTO> buscarPrestadoresPorMedicamentoDisponivel(String nomeMedicamento) {
+        nomeMedicamento = "%" + nomeMedicamento + "%";
         List<Prestador> prestadores = prestadorRepository.findByNomeMedicamento(nomeMedicamento);
 
-        List<Prestador> prestadoresFiltrados = filtrarPrestadoresDisponiveis(prestadores, nomeMedicamento);
-
-        return PrestadorMapper.toPrestadorResponseDTOList(prestadoresFiltrados);
-    }
-
-    private List<Prestador> filtrarPrestadoresDisponiveis(List<Prestador> prestadores, String nomeMedicamento) {
-        return prestadores.stream()
-                .filter(prestador -> verificaDisponibilidadeDoMedicamento(nomeMedicamento, prestador))
-                .collect(Collectors.toList());
-    }
-
-    private boolean verificaDisponibilidadeDoMedicamento(String nomeMedicamento, Prestador prestador) {
-        List<Medicamento> medicamentos = medicamentoRepository.findByNome(nomeMedicamento);
-        if (medicamentos.isEmpty()) {
-            throw new MedicamentoNaoEncontradoException("Nenhum(a): " + nomeMedicamento + " encontrado(a).");
-        }
-
-        List<Medicamento> medicamentosPrestador = medicamentoRepository.findByPrestadorId(prestador.getId());
-
-        for (Medicamento med : medicamentosPrestador) {
-            for(Medicamento medicamento: medicamentos){
-                if (med.getNome().equals(medicamento.getNome()) && med.getQuantidade() == 0) {
-                    throw new PrestadorNaoEncontradoException("Não há prestadores disponíveis para o medicamento buscado.");
-                }
-            }
-        }
-
-        return true;
+        return PrestadorMapper.toPrestadorResponseDTOList(prestadores);
     }
 
 }

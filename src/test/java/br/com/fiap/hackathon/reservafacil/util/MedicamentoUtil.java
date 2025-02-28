@@ -52,7 +52,7 @@ public class MedicamentoUtil {
                 "Medicamento test",
                 TipoMedicamentoEnum.ESPECIAIS,
                 10,
-                LocalDate.of(2025,05,15),
+                LocalDate.of(2025,05,15).toString(),
                 "001",
                 "Prestador Test",
                 List.of("Doc 1", "Doc 2", "Doc 3")

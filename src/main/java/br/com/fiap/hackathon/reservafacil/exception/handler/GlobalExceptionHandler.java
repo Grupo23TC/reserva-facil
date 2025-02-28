@@ -2,6 +2,7 @@ package br.com.fiap.hackathon.reservafacil.exception.handler;
 
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
+import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoEsgotadoException;
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoPertencePrestadorException;
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoRestritoException;
@@ -24,11 +25,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -204,6 +201,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MedicamentoRestritoException.class)
     public ResponseEntity<ErroCustomizado> handleMedicamentoRestritoException(MedicamentoRestritoException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
+    @ExceptionHandler(MedicamentoEsgotadoException.class)
+    public ResponseEntity<ErroCustomizado> handleMedicamentoEsgotadoException(MedicamentoEsgotadoException ex, HttpServletRequest request) {
         HttpStatus status = HttpStatus.CONFLICT;
 
         ErroCustomizado erro = new ErroCustomizado(

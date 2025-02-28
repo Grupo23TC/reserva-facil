@@ -11,12 +11,13 @@ import java.util.UUID;
 
 @Repository
 public interface PrestadorRepository extends JpaRepository<Prestador, UUID> {
-    @Query("SELECT p FROM Prestador p WHERE p.endereco.logradouro = :logradouro")
-    List<Prestador> findByLogradouro(@Param("logradouro") String logradouro);
+    @Query("SELECT p FROM Prestador p WHERE LOWER(p.endereco.cidade) LIKE LOWER(:cidade)")
+    List<Prestador> findByCidade(@Param("cidade") String cidade);
 
-    @Query("SELECT p FROM Prestador p JOIN p.medicamentos m WHERE m.nome = :nomeMedicamento")
+    @Query("SELECT p FROM Prestador p JOIN p.medicamentos m WHERE LOWER(m.nome) LIKE LOWER(:nomeMedicamento) AND m.quantidade > 0")
     List<Prestador> findByNomeMedicamento(@Param("nomeMedicamento") String nomeMedicamento);
 
-    @Query("SELECT p FROM Prestador p JOIN p.medicamentos m WHERE p.endereco.logradouro = :logradouro AND m.nome = :nomeMedicamento")
-    List<Prestador> findByLocalidadeAndNomeMedicamento(@Param("logradouro") String logradouro, @Param("nomeMedicamento") String nomeMedicamento);
+    @Query("SELECT p FROM Prestador p JOIN p.medicamentos m WHERE LOWER(p.endereco.cidade) LIKE LOWER(:cidade) " +
+            "AND LOWER(m.nome) LIKE LOWER(:nomeMedicamento) AND m.quantidade > 0")
+    List<Prestador> findByCidadeAndNomeMedicamento(@Param("cidade") String cidade, @Param("nomeMedicamento") String nomeMedicamento);
 }
