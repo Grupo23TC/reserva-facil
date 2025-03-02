@@ -3,7 +3,6 @@ package br.com.fiap.hackathon.reservafacil.controller;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.AtualizarPrestadorRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.CadastrarPrestadorRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.PrestadorResponseDTO;
-import br.com.fiap.hackathon.reservafacil.service.PrestadorService;
 import br.com.fiap.hackathon.reservafacil.service.impl.PrestadorServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +28,10 @@ public class PrestadorController {
         return ResponseEntity.status(HttpStatus.OK).body(service.listarPrestadores(pageable));
     }
 
-    @GetMapping("/localidade")
-    public ResponseEntity<List<PrestadorResponseDTO>> buscarPrestadoresPorLocalidade(@RequestParam String localidade) {
-        List<PrestadorResponseDTO> listaPrestadoresPorLocalidade = service.buscarPrestadorPorLocalidade(localidade);
-        return ResponseEntity.status(HttpStatus.OK).body(listaPrestadoresPorLocalidade);
+    @GetMapping("/cidade")
+    public ResponseEntity<List<PrestadorResponseDTO>> buscarPrestadoresPorCidade(@RequestParam String cidade) {
+        List<PrestadorResponseDTO> listaPrestadoresPorCidade = service.buscarPrestadorPorCidade(cidade);
+        return ResponseEntity.status(HttpStatus.OK).body(listaPrestadoresPorCidade);
     }
 
     @GetMapping("/medicamentos")
@@ -41,10 +40,10 @@ public class PrestadorController {
         return ResponseEntity.status(HttpStatus.OK).body(listaPrestadores);
     }
 
-    @GetMapping("/localidade-medicamentos")
-    public ResponseEntity<List<PrestadorResponseDTO>> buscarPrestadoresPorMedicamentoELocalidade(@RequestParam String localidade,
+    @GetMapping("/cidade-medicamentos")
+    public ResponseEntity<List<PrestadorResponseDTO>> buscarPrestadoresPorMedicamentoECidade(@RequestParam String cidade,
                                                                                                  @RequestParam String nomeMedicamento) {
-        List<PrestadorResponseDTO> listaPrestadores = service.buscarPrestadoresPorMedicamentoELocalidade(localidade, nomeMedicamento);
+        List<PrestadorResponseDTO> listaPrestadores = service.buscarPrestadoresPorMedicamentoECidade(cidade, nomeMedicamento);
         return ResponseEntity.status(HttpStatus.OK).body(listaPrestadores);
     }
 

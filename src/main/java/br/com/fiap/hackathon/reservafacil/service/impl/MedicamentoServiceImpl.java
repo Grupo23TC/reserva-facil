@@ -24,7 +24,7 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     private MedicamentoRepository medicamentoRepository;
 
     @Autowired
-    private PrestadorServiceImpl prestadorService;
+    private PrestadorService prestadorService;
 
     @Override
     @Transactional
@@ -39,9 +39,15 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     @Transactional
     public MedicamentoResponseDTO atualizarMedicamento(UUID id, AtualizarMedicamentoRequestDTO dto) {
         Medicamento medicamento = buscarMedicamento(id);
-        medicamento.setNome(dto.nome());
-        medicamento.setQuantidade(dto.quantidade());
-        medicamento.setValidade(dto.validade());
+        if (dto.nome() != null && !dto.nome().isEmpty()) {
+            medicamento.setNome(dto.nome());
+        }
+        if (dto.quantidade() != null) {
+            medicamento.setQuantidade(dto.quantidade());
+        }
+        if (dto.validade() != null) {
+            medicamento.setValidade(dto.validade());
+        }
         return MedicamentoMapper.toMedicamentoResponseDTO(medicamentoRepository.save(medicamento));
     }
 
@@ -59,6 +65,7 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     }
 
     @Override
+    @Transactional
     public Medicamento buscarMedicamento(UUID id) {
         return medicamentoRepository.findById(id)
                 .orElseThrow(() -> new MedicamentoNaoEncontradoException("Medicamento id: " + id + " não encontrado."));

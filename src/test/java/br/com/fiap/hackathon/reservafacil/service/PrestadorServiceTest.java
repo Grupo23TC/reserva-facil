@@ -1,6 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.service;
 
-import br.com.fiap.hackathon.reservafacil.Util.PrestadorUtil;
+import br.com.fiap.hackathon.reservafacil.util.PrestadorUtil;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.CadastrarPrestadorRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.PrestadorResponseDTO;
 import br.com.fiap.hackathon.reservafacil.service.impl.PrestadorServiceImpl;
@@ -79,9 +79,9 @@ public class PrestadorServiceTest {
 
             String localidade = "teste";
 
-            when(service.buscarPrestadorPorLocalidade(anyString())).thenReturn(listaDePrestadores);
+            when(service.buscarPrestadorPorCidade(anyString())).thenReturn(listaDePrestadores);
 
-            List<PrestadorResponseDTO> prestadorBuscado = service.buscarPrestadorPorLocalidade(localidade);
+            List<PrestadorResponseDTO> prestadorBuscado = service.buscarPrestadorPorCidade(localidade);
 
             assertThat(prestadorBuscado)
                     .isNotNull();
@@ -89,7 +89,7 @@ public class PrestadorServiceTest {
             assertThat(prestadorBuscado.get(0).tipoPrestador())
                     .isEqualTo(prestadorResponse.tipoPrestador());
 
-            verify(service, times(1)).buscarPrestadorPorLocalidade(localidade);
+            verify(service, times(1)).buscarPrestadorPorCidade(localidade);
         }
 
         @Test
@@ -126,9 +126,9 @@ public class PrestadorServiceTest {
             String medicamento = "medicamento";
             String localidade = "teste";
 
-            when(service.buscarPrestadoresPorMedicamentoELocalidade(anyString(), anyString())).thenReturn(listaDePrestadores);
+            when(service.buscarPrestadoresPorMedicamentoECidade(anyString(), anyString())).thenReturn(listaDePrestadores);
 
-            List<PrestadorResponseDTO> prestadorBuscado = service.buscarPrestadoresPorMedicamentoELocalidade(medicamento, localidade);
+            List<PrestadorResponseDTO> prestadorBuscado = service.buscarPrestadoresPorMedicamentoECidade(medicamento, localidade);
 
             assertThat(prestadorBuscado)
                     .isNotNull();
@@ -136,7 +136,7 @@ public class PrestadorServiceTest {
             assertThat(prestadorBuscado.get(0).tipoPrestador())
                     .isEqualTo(prestadorResponse.tipoPrestador());
 
-            verify(service, times(1)).buscarPrestadoresPorMedicamentoELocalidade(medicamento, localidade);
+            verify(service, times(1)).buscarPrestadoresPorMedicamentoECidade(medicamento, localidade);
         }
     }
 

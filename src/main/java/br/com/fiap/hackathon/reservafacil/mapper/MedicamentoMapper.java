@@ -30,7 +30,7 @@ public class MedicamentoMapper {
                 medicamento.getNome(),
                 medicamento.getTipoMedicamentoEnum(),
                 medicamento.getQuantidade(),
-                medicamento.getValidade(),
+                medicamento.getValidade().toString(),
                 medicamento.getLote(),
                 medicamento.getPrestador().getNome(),
                 medicamento.getDocumentos().stream().map(Documento::getNome).toList()

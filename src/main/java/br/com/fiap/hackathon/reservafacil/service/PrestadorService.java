@@ -21,8 +21,8 @@ public interface PrestadorService {
 
     void excluirPrestador(UUID id);
 
-    List<PrestadorResponseDTO> buscarPrestadorPorLocalidade(String localidade);
+    List<PrestadorResponseDTO> buscarPrestadorPorCidade(String localidade);
 
     List<PrestadorResponseDTO> buscarPrestadoresPorMedicamentoDisponivel(String nomeMedicamento);
-    List<PrestadorResponseDTO> buscarPrestadoresPorMedicamentoELocalidade(String localidade, String nomeMedicamento);
+    List<PrestadorResponseDTO> buscarPrestadoresPorMedicamentoECidade(String localidade, String nomeMedicamento);
 }
