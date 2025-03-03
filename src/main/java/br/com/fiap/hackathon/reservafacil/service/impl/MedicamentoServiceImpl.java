@@ -41,13 +41,10 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     @Transactional
     public MedicamentoResponseDTO cadastrarMedicamento(CadastrarMedicamentoRequestDTO dto) {
         Prestador prestador = prestadorService.buscarPrestadorPorId(dto.prestadorId());
-
-        Usuario usuarioLogado = securityService.obterUsuarioLogado();
-        Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
-
-        if(!operador.getPrestador().getId().equals(prestador.getId())){
-            throw new AcessoNegadoException("Você não pode cadastrar um medicamento em um prestador que você não está associado.");
-        }
+        verificarOperadorEPrestador(
+                dto.prestadorId(),
+                "Você não pode cadastrar um medicamento em um prestador que você não está associado."
+        );
 
         Medicamento medicamento = MedicamentoMapper.toMedicamento(dto);
         medicamento.setPrestador(prestador);
@@ -58,12 +55,10 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     @Transactional
     public MedicamentoResponseDTO atualizarMedicamento(UUID id, AtualizarMedicamentoRequestDTO dto) {
         Medicamento medicamento = buscarMedicamento(id);
-        Usuario usuarioLogado = securityService.obterUsuarioLogado();
-        Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
-
-        if(!operador.getPrestador().getId().equals(medicamento.getPrestador().getId())){
-            throw new AcessoNegadoException("Você não pode atualizar um medicamento de um prestador que você não está associado.");
-        }
+        verificarOperadorEPrestador(
+                medicamento.getPrestador().getId(),
+                "Você não pode atualizar um medicamento de um prestador que você não está associado."
+        );
 
         if (dto.nome() != null && !dto.nome().isEmpty()) {
             medicamento.setNome(dto.nome());
@@ -81,12 +76,10 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     @Transactional
     public void excluirMedicamento(UUID id) {
         Medicamento medicamento = buscarMedicamento(id);
-        Usuario usuarioLogado = securityService.obterUsuarioLogado();
-        Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
-
-        if(!operador.getPrestador().getId().equals(medicamento.getPrestador().getId())){
-            throw new AcessoNegadoException("Você não pode deletar um medicamento de um prestador que você não está associado.");
-        }
+        verificarOperadorEPrestador(
+                medicamento.getPrestador().getId(),
+                "Você não pode deletar um medicamento de um prestador que você não está associado."
+        );
 
         medicamentoRepository.deleteById(id);
     }
@@ -108,5 +101,14 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     @Transactional
     public List<MedicamentoResponseDTO> listarMedicamentos() {
         return medicamentoRepository.findAll().stream().map(MedicamentoMapper::toMedicamentoResponseDTO).toList();
+    }
+
+    private void verificarOperadorEPrestador(UUID prestadorId, String message) {
+        Usuario usuarioLogado = securityService.obterUsuarioLogado();
+        Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
+
+        if (!operador.getPrestador().getId().equals(prestadorId)) {
+            throw new AcessoNegadoException(message);
+        }
     }
 }

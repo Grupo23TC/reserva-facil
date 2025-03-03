@@ -54,12 +54,10 @@ public class PrestadorServiceImpl implements PrestadorService {
     @Transactional
     public PrestadorResponseDTO atualizarPrestador(UUID id, AtualizarPrestadorRequestDTO prestadorRequestDTO) {
         Prestador prestador = buscarPrestadorPorId(id);
-        Usuario usuarioLogado = securityService.obterUsuarioLogado();
-        Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
-
-        if(!operador.getPrestador().getId().equals(prestador.getId())){
-               throw new AcessoNegadoException("Você não pode atualizar um prestador diferente daquele que você está associado.");
-        }
+        verificarOperadorEPrestador(
+                prestador.getId(),
+                "Você não pode atualizar um prestador diferente daquele que você está associado."
+        );
 
         prestador.setNome(prestadorRequestDTO.nome());
         prestador.setNomeFantasia(prestadorRequestDTO.nomeFantasia());
@@ -74,12 +72,10 @@ public class PrestadorServiceImpl implements PrestadorService {
     @Transactional
     public void excluirPrestador(UUID id) {
         buscarPrestadorPorId(id);
-        Usuario usuarioLogado = securityService.obterUsuarioLogado();
-        Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
-
-        if(!operador.getPrestador().getId().equals(id)){
-            throw new AcessoNegadoException("Você não pode deletar um prestador diferente daquele que você está associado.");
-        }
+        verificarOperadorEPrestador(
+                id,
+                "Você não pode deletar um prestador diferente daquele que você está associado."
+        );
 
         prestadorRepository.deleteById(id);
     }
@@ -115,4 +111,12 @@ public class PrestadorServiceImpl implements PrestadorService {
         return PrestadorMapper.toPrestadorResponseDTOList(prestadores);
     }
 
+    private void verificarOperadorEPrestador(UUID prestadorId, String message) {
+        Usuario usuarioLogado = securityService.obterUsuarioLogado();
+        Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
+
+        if (!operador.getPrestador().getId().equals(prestadorId)) {
+            throw new AcessoNegadoException(message);
+        }
+    }
 }
