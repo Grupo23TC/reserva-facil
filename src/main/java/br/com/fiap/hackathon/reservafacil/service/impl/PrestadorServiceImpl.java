@@ -1,7 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.service.impl;
 
 import br.com.fiap.hackathon.reservafacil.exception.prestador.PrestadorNaoEncontradoException;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.mapper.PrestadorMapper;
 import br.com.fiap.hackathon.reservafacil.model.Operador;
 import br.com.fiap.hackathon.reservafacil.model.Prestador;
@@ -9,8 +8,6 @@ import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.AtualizarPrestadorRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.CadastrarPrestadorRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.PrestadorResponseDTO;
-import br.com.fiap.hackathon.reservafacil.repository.MedicamentoRepository;
-import br.com.fiap.hackathon.reservafacil.repository.OperadorRepository;
 import br.com.fiap.hackathon.reservafacil.repository.PrestadorRepository;
 import br.com.fiap.hackathon.reservafacil.security.SecurityService;
 import br.com.fiap.hackathon.reservafacil.service.OperadorService;
@@ -52,12 +49,9 @@ public class PrestadorServiceImpl implements PrestadorService {
 
     @Override
     @Transactional
-    public PrestadorResponseDTO atualizarPrestador(UUID id, AtualizarPrestadorRequestDTO prestadorRequestDTO) {
+    public PrestadorResponseDTO atualizarPrestador(AtualizarPrestadorRequestDTO prestadorRequestDTO) {
+        UUID id = obterIdPrestador();
         Prestador prestador = buscarPrestadorPorId(id);
-        verificarOperadorEPrestador(
-                prestador.getId(),
-                "Você não pode atualizar um prestador diferente daquele que você está associado."
-        );
 
         prestador.setNome(prestadorRequestDTO.nome());
         prestador.setNomeFantasia(prestadorRequestDTO.nomeFantasia());
@@ -70,12 +64,9 @@ public class PrestadorServiceImpl implements PrestadorService {
 
     @Override
     @Transactional
-    public void excluirPrestador(UUID id) {
+    public void excluirPrestador() {
+        UUID id = obterIdPrestador();
         buscarPrestadorPorId(id);
-        verificarOperadorEPrestador(
-                id,
-                "Você não pode deletar um prestador diferente daquele que você está associado."
-        );
 
         prestadorRepository.deleteById(id);
     }
@@ -111,12 +102,10 @@ public class PrestadorServiceImpl implements PrestadorService {
         return PrestadorMapper.toPrestadorResponseDTOList(prestadores);
     }
 
-    private void verificarOperadorEPrestador(UUID prestadorId, String message) {
+    private UUID obterIdPrestador() {
         Usuario usuarioLogado = securityService.obterUsuarioLogado();
         Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
 
-        if (!operador.getPrestador().getId().equals(prestadorId)) {
-            throw new AcessoNegadoException(message);
-        }
+        return operador.getPrestador().getId();
     }
 }

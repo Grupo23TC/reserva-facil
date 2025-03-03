@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "default": {},
+  "required": [
+    "cns",
+    "nome",
+    "cargo",
+    "prestador",
+    "ativo"
+  ],
+  "properties": {
+    "cns": {
+      "type": "string",
+      "default": ""
+    },
+    "nome": {
+      "type": "string",
+      "default": ""
+    },
+    "cargo": {
+      "type": "string",
+      "default": ""
+    },
+    "prestador": {
+      "type": "object",
+      "default": {},
+      "required": [
+        "id",
+        "nomeFantasia",
+        "prestadorEndereco",
+        "tipoPrestador"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "default": ""
+        },
+        "nomeFantasia": {
+          "type": "string",
+          "default": ""
+        },
+        "prestadorEndereco": {
+          "type": "object",
+          "default": {},
+          "required": [
+            "id",
+            "logradouro",
+            "bairro",
+            "cidade",
+            "estado",
+            "complemento"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "default": ""
+            },
+            "logradouro": {
+              "type": "string",
+              "default": ""
+            },
+            "bairro": {
+              "type": "string",
+              "default": ""
+            },
+            "cidade": {
+              "type": "string",
+              "default": ""
+            },
+            "estado": {
+              "type": "string",
+              "default": ""
+            },
+            "complemento": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        },
+        "tipoPrestador": {
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

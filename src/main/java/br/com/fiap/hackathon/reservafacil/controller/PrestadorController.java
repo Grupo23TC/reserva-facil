@@ -58,19 +58,18 @@ public class PrestadorController {
         return ResponseEntity.status(HttpStatus.CREATED).body(prestadorSalvo);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     @PreAuthorize("hasRole('OPERADOR')")
     public ResponseEntity<PrestadorResponseDTO> atualizarPrestador(
-            @Valid @RequestBody AtualizarPrestadorRequestDTO prestador,
-            @PathVariable UUID id
+            @Valid @RequestBody AtualizarPrestadorRequestDTO prestador
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.atualizarPrestador(id, prestador));
+        return ResponseEntity.status(HttpStatus.OK).body(service.atualizarPrestador(prestador));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     @PreAuthorize("hasRole('OPERADOR')")
-    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
-        service.excluirPrestador(id);
+    public ResponseEntity<Void> deletar() {
+        service.excluirPrestador();
         return ResponseEntity.noContent().build();
     }
 }

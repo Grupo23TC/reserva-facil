@@ -13,7 +13,6 @@ public record CadastrarMedicamentoRequestDTO(
         Integer quantidade,
         LocalDate validade,
         String lote,
-        UUID prestadorId,
         List<String> documentos
 ) {
 }

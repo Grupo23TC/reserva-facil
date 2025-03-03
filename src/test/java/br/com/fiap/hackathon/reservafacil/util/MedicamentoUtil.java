@@ -20,7 +20,6 @@ public class MedicamentoUtil {
                 10,
                 LocalDate.of(2025,05,15),
                 "001",
-                UUID.randomUUID(),
                 List.of("Doc 1", "Doc 2", "Doc 3")
         );
     }
@@ -39,6 +38,19 @@ public class MedicamentoUtil {
         medicamento.setNome("Medicamento Test");
         medicamento.setLote("001");
         medicamento.setPrestador(PrestadorUtil.gerarPrestador());
+        medicamento.setValidade(LocalDate.of(2025,05,15));
+        medicamento.setQuantidade(10);
+        medicamento.setDocumentos(List.of(new Documento("Doc 1"), new Documento("Doc 2"), new Documento("Doc 3")));
+
+        return medicamento;
+    }
+
+    public static Medicamento gerarMedicamento(UUID idPrestador) {
+        Medicamento medicamento = new Medicamento();
+        medicamento.setId(UUID.randomUUID());
+        medicamento.setNome("Medicamento Test");
+        medicamento.setLote("001");
+        medicamento.setPrestador(PrestadorUtil.gerarPrestador(idPrestador));
         medicamento.setValidade(LocalDate.of(2025,05,15));
         medicamento.setQuantidade(10);
         medicamento.setDocumentos(List.of(new Documento("Doc 1"), new Documento("Doc 2"), new Documento("Doc 3")));

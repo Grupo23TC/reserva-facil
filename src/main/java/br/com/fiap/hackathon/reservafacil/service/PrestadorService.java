@@ -16,10 +16,10 @@ public interface PrestadorService {
 
     PrestadorResponseDTO cadastrarPrestador(CadastrarPrestadorRequestDTO prestadorRequestDTO);
 
-    PrestadorResponseDTO atualizarPrestador(UUID id, AtualizarPrestadorRequestDTO prestadorRequestDTO);
+    PrestadorResponseDTO atualizarPrestador(AtualizarPrestadorRequestDTO prestadorRequestDTO);
     Prestador buscarPrestadorPorId(UUID id);
 
-    void excluirPrestador(UUID id);
+    void excluirPrestador();
 
     List<PrestadorResponseDTO> buscarPrestadorPorCidade(String localidade);
 

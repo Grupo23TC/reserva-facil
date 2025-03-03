@@ -29,9 +29,6 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     private MedicamentoRepository medicamentoRepository;
 
     @Autowired
-    private PrestadorService prestadorService;
-
-    @Autowired
     private SecurityService securityService;
 
     @Autowired
@@ -40,11 +37,10 @@ public class MedicamentoServiceImpl implements MedicamentoService {
     @Override
     @Transactional
     public MedicamentoResponseDTO cadastrarMedicamento(CadastrarMedicamentoRequestDTO dto) {
-        Prestador prestador = prestadorService.buscarPrestadorPorId(dto.prestadorId());
-        verificarOperadorEPrestador(
-                dto.prestadorId(),
-                "Você não pode cadastrar um medicamento em um prestador que você não está associado."
-        );
+        Usuario usuarioLogado = securityService.obterUsuarioLogado();
+        Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
+        Prestador prestador = operador.getPrestador();
+
 
         Medicamento medicamento = MedicamentoMapper.toMedicamento(dto);
         medicamento.setPrestador(prestador);

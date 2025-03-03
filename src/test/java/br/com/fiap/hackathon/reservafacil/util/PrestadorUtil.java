@@ -1,12 +1,14 @@
 package br.com.fiap.hackathon.reservafacil.util;
 
 import br.com.fiap.hackathon.reservafacil.model.Endereco;
+import br.com.fiap.hackathon.reservafacil.model.Medicamento;
 import br.com.fiap.hackathon.reservafacil.model.Prestador;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.CadastrarPrestadorRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.prestador.PrestadorResponseDTO;
 import br.com.fiap.hackathon.reservafacil.model.enums.TipoPrestadorEnum;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class PrestadorUtil {
@@ -14,6 +16,17 @@ public class PrestadorUtil {
     public static Prestador gerarPrestador(){
         Prestador prestador = new Prestador();
         prestador.setId(UUID.randomUUID());
+        prestador.setNome("Hospital Nipo Brasileiro");
+        prestador.setTipoPrestadorEnum(TipoPrestadorEnum.UBS);
+        prestador.setEndereco(gerarEndereco());
+        prestador.setNomeFantasia("UBS BR");
+        prestador.setMedicamentos(new ArrayList<>());
+        return prestador;
+    }
+
+    public static Prestador gerarPrestador(UUID id){
+        Prestador prestador = new Prestador();
+        prestador.setId(id);
         prestador.setNome("Hospital Nipo Brasileiro");
         prestador.setTipoPrestadorEnum(TipoPrestadorEnum.UBS);
         prestador.setEndereco(gerarEndereco());

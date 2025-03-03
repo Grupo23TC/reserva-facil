@@ -45,7 +45,7 @@ public class OperadorServiceImpl implements OperadorService {
     @Override
     @Transactional(readOnly = true)
     public Operador buscarPorCns(String cns) {
-        Operador operador = repository.findByCns(cns).orElseThrow(() -> new OperadorNaoEncontradoException(cns));
+        Operador operador = repository.findByCns(cns).orElseThrow(() -> new OperadorNaoEncontradoException("Operador não encontrado"));
 
         if(usuariosNaoSaoIguais(cns)) {
             throw new AcessoNegadoException("Você não pode ter acesso ou alterar os dados de outros operadores");
@@ -59,7 +59,7 @@ public class OperadorServiceImpl implements OperadorService {
     public Operador ativar(String cns) {
         Operador operador = buscarPorCns(cns);
         operador.setAtivo(true);
-        return operador;
+        return repository.save(operador);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class OperadorServiceImpl implements OperadorService {
     public Operador desativar(String cns) {
         Operador operador = buscarPorCns(cns);
         operador.setAtivo(false);
-        return operador;
+        return repository.save(operador);
     }
 
     private boolean usuariosNaoSaoIguais(String cns) {

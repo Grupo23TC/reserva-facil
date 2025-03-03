@@ -100,7 +100,7 @@ public class UsuarioServiceIT {
         void deveAtualizaSenhaUsuario() {
             AuthUtil.autenticar("987654321098765");
             String cns = "987654321098765";
-            String novaSenha = "123456";
+            String novaSenha = "123";
 
             service.atualizarSenhaUsuario(cns, novaSenha);
         }

@@ -18,6 +18,14 @@ public class UsuarilUtil {
         );
     }
 
+    public static CadastrarUsuarioRequest gerarCadastrarUsuarioRequestRoleOperador() {
+        return new CadastrarUsuarioRequest(
+                "654987123065482",
+                "123",
+                "OPERADOR"
+        );
+    }
+
     public static CadastrarUsuarioRequest gerarCadastrarUsuarioRequest(String cns) {
         return new CadastrarUsuarioRequest(
                 cns,
