@@ -34,6 +34,8 @@ public class ResourceServerConfig {
                     authorizeRequests.requestMatchers("/login").permitAll();
                     authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/usuarios").permitAll();
                     authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/beneficiarios").permitAll();
+                    authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/prestadores").permitAll();
+                    authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/operadores").permitAll();
 
                     authorizeRequests.anyRequest().authenticated();
                 })

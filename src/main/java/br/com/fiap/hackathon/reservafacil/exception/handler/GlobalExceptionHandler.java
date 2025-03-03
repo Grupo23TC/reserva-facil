@@ -6,6 +6,8 @@ import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoEsgot
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoPertencePrestadorException;
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoRestritoException;
+import br.com.fiap.hackathon.reservafacil.exception.operador.OperadorCadastradoException;
+import br.com.fiap.hackathon.reservafacil.exception.operador.OperadorNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.prestador.PrestadorNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaInvalidaException;
 import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaNaoDisponivelException;
@@ -13,7 +15,7 @@ import br.com.fiap.hackathon.reservafacil.exception.reserva.ReservaNaoEncontrada
 import br.com.fiap.hackathon.reservafacil.exception.role.RoleNaoEncontradaException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoEncontradoException;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.exception.validacao.ErroCustomizado;
 import br.com.fiap.hackathon.reservafacil.exception.validacao.ValidacaoErro;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,6 +48,34 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BeneficiarioNaoEncontradoException.class)
     public ResponseEntity<ErroCustomizado> handleBeneficiarioNaoEncontradoException(BeneficiarioNaoEncontradoException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
+    @ExceptionHandler(OperadorCadastradoException.class)
+    public ResponseEntity<ErroCustomizado> handleOperadorCadastradoException(OperadorCadastradoException ex, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+
+        ErroCustomizado erro = new ErroCustomizado(
+                LocalDateTime.now(),
+                status.value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(erro);
+    }
+
+    @ExceptionHandler(OperadorNaoEncontradoException.class)
+    public ResponseEntity<ErroCustomizado> handleOperadorNaoEncontradoException(OperadorNaoEncontradoException ex, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
         ErroCustomizado erro = new ErroCustomizado(
@@ -143,8 +173,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(erro);
     }
 
-    @ExceptionHandler(UsuarioNaoIguaisException.class)
-    public ResponseEntity<ErroCustomizado> handleUsuarioNaoIguaisException(UsuarioNaoIguaisException ex, HttpServletRequest request) {
+    @ExceptionHandler(AcessoNegadoException.class)
+    public ResponseEntity<ErroCustomizado> handleUsuarioNaoIguaisException(AcessoNegadoException ex, HttpServletRequest request) {
         HttpStatus status = HttpStatus.FORBIDDEN;
 
         ErroCustomizado erro = new ErroCustomizado(

@@ -5,7 +5,7 @@ import br.com.fiap.hackathon.reservafacil.exception.handler.GlobalExceptionHandl
 import br.com.fiap.hackathon.reservafacil.exception.role.RoleNaoEncontradaException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoEncontradoException;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.AtualizarSenhaRequest;
 import br.com.fiap.hackathon.reservafacil.model.dto.usuario.CadastrarUsuarioRequest;
@@ -180,7 +180,7 @@ public class UsuarioControllerTest {
             AtualizarSenhaRequest request = gerarAtualizarSenhaRequest();
 
 
-            doThrow(new UsuarioNaoIguaisException(NAO_FOI_POSSIVEL_ALTERAR_A_SENHA))
+            doThrow(new AcessoNegadoException(NAO_FOI_POSSIVEL_ALTERAR_A_SENHA))
                     .when(service).atualizarSenhaUsuario(anyString(), anyString());
 
             mockMvc.perform(
@@ -236,7 +236,7 @@ public class UsuarioControllerTest {
         void deveGerarExcecao_QuandoAtivarUsuario_AcessoNegado() throws Exception{
             String cns = "654987123065482";
 
-            when(service.ativar(anyString())).thenThrow(new UsuarioNaoIguaisException(NAO_FOI_POSSIVEL_ATIVAR_USUARIO));
+            when(service.ativar(anyString())).thenThrow(new AcessoNegadoException(NAO_FOI_POSSIVEL_ATIVAR_USUARIO));
 
             mockMvc.perform(put("/api/v1/usuarios/{cns}", cns))
                     .andExpect(status().isForbidden())
@@ -287,7 +287,7 @@ public class UsuarioControllerTest {
         void deveGerarExcecao_QuandoDesativarUsuario_AcessoNegado() throws Exception{
             String cns = "654987123065482";
 
-            when(service.desativar(anyString())).thenThrow(new UsuarioNaoIguaisException(NAO_FOI_POSSIVEL_DESATIVAR_USUARIO));
+            when(service.desativar(anyString())).thenThrow(new AcessoNegadoException(NAO_FOI_POSSIVEL_DESATIVAR_USUARIO));
 
             mockMvc.perform(delete("/api/v1/usuarios/{cns}", cns))
                     .andExpect(status().isForbidden())

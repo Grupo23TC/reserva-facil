@@ -2,7 +2,7 @@ package br.com.fiap.hackathon.reservafacil.service;
 
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
@@ -176,7 +176,7 @@ public class BeneficiarioServiceTest {
 
             assertThatThrownBy(() -> service.buscarPorCns("654987123065482"))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(ACESSO_NEGADO);
 
             verify(repository, times(1)).findByCns(anyString());
@@ -232,7 +232,7 @@ public class BeneficiarioServiceTest {
 
             assertThatThrownBy(() -> service.ativar("654987123065482"))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(ACESSO_NEGADO);
 
             verify(repository, times(1)).findByCns(anyString());
@@ -289,7 +289,7 @@ public class BeneficiarioServiceTest {
 
             assertThatThrownBy(() -> service.desativar("654987123065482"))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(ACESSO_NEGADO);
 
             verify(repository, times(1)).findByCns(anyString());

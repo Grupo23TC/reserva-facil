@@ -4,11 +4,10 @@ import br.com.fiap.hackathon.reservafacil.util.JsonStringHelper;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.handler.GlobalExceptionHandler;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.BeneficiarioResponse;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBeneficiarioRequest;
-import br.com.fiap.hackathon.reservafacil.service.BeneficiarioService;
 import br.com.fiap.hackathon.reservafacil.service.impl.BeneficiarioServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -170,7 +169,7 @@ public class BeneficiarioControllerTest {
             String cns = "654987123065482";
 
             when(service.buscarPorCns(anyString()))
-                    .thenThrow(new UsuarioNaoIguaisException(ACESSO_NEGADO));
+                    .thenThrow(new AcessoNegadoException(ACESSO_NEGADO));
 
             mockMvc.perform(get("/api/v1/beneficiarios/{cns}", cns))
                     .andExpect(status().isForbidden())
@@ -225,7 +224,7 @@ public class BeneficiarioControllerTest {
             String cns = "654987123065482";
 
             when(service.ativar(anyString()))
-                    .thenThrow(new UsuarioNaoIguaisException(ACESSO_NEGADO));
+                    .thenThrow(new AcessoNegadoException(ACESSO_NEGADO));
 
             mockMvc.perform(patch("/api/v1/beneficiarios/{cns}", cns))
                     .andExpect(status().isForbidden())
@@ -280,7 +279,7 @@ public class BeneficiarioControllerTest {
             String cns = "654987123065482";
 
             when(service.desativar(anyString()))
-                    .thenThrow(new UsuarioNaoIguaisException(ACESSO_NEGADO));
+                    .thenThrow(new AcessoNegadoException(ACESSO_NEGADO));
 
             mockMvc.perform(delete("/api/v1/beneficiarios/{cns}", cns))
                     .andExpect(status().isForbidden())

@@ -3,10 +3,9 @@ package br.com.fiap.hackathon.reservafacil.service.integracao;
 import br.com.fiap.hackathon.reservafacil.util.AuthUtil;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoEncontradoException;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
-import br.com.fiap.hackathon.reservafacil.service.UsuarioService;
 import br.com.fiap.hackathon.reservafacil.service.impl.UsuarioServiceImpl;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -126,7 +125,7 @@ public class UsuarioServiceIT {
 
             assertThatThrownBy(() -> service.atualizarSenhaUsuario(cns, novaSenha))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(NAO_FOI_POSSIVEL_ALTERAR_A_SENHA);
         }
     }
@@ -165,7 +164,7 @@ public class UsuarioServiceIT {
 
             assertThatThrownBy(() -> service.desativar(cns))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(NAO_FOI_POSSIVEL_DESATIVAR_USUARIO);
         }
     }
@@ -204,7 +203,7 @@ public class UsuarioServiceIT {
 
             assertThatThrownBy(() -> service.ativar(cns))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(NAO_FOI_POSSIVEL_ATIVAR_USUARIO);
         }
     }

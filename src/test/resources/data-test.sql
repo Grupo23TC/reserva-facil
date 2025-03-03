@@ -10,6 +10,10 @@ VALUES ('550e8400-e29b-41d4-a716-446655440005', '123456789012345', '$2a$10$0Kxhi
 INSERT INTO role (id, authority)
 VALUES ('550e8400-e29b-41d4-a716-446655440010', 'PACIENTE');
 
+-- role 2
+INSERT INTO role (id, authority)
+VALUES ('550e8400-e29b-41d4-a716-446655440011', 'OPERADOR');
+
 -- Associando usuário à role na tabela 'usuario_role'
 INSERT INTO usuario_role (user_id, role_id)
 VALUES ('550e8400-e29b-41d4-a716-446655440005', '550e8400-e29b-41d4-a716-446655440010');
@@ -78,3 +82,39 @@ INSERT INTO beneficiario (
     '550e8400-e29b-41d4-a716-446655440002',
     '550e8400-e29b-41d4-a716-446655440006'
 );
+
+-- prestador
+INSERT INTO prestador (
+    id,
+    nome,
+    nome_fantasia,
+    endereco_id,
+    tipo_prestador
+) VALUES (
+             '550e8400-e29b-41d4-a716-446655440000',
+             'Farmácia Central',
+             'Central Farma',
+             '550e8400-e29b-41d4-a716-446655440001',
+             'FARMACIA'
+ );
+
+-- operador
+INSERT INTO operador (
+    cns,
+    nome,
+    cargo,
+    usuario_id,
+    prestador_id,
+    ativo
+) VALUES (
+             '234567890123456',
+             'João Silva',
+             'Farmacêutico',
+             '550e8400-e29b-41d4-a716-446655440006',
+             '550e8400-e29b-41d4-a716-446655440000',
+             true
+ );
+
+-- usuario 3
+INSERT INTO usuario (id, cns, senha, ativo)
+VALUES ('550e8400-e29b-41d4-a716-446655440007', '234567890123456', '$2a$10$0Kxhiicu5MeLLeTFA4WosOqstc.czwhYNLqheZsQNVMseDi6xXfN.', true);
