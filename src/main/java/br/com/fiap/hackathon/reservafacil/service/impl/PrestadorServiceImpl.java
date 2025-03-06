@@ -50,8 +50,7 @@ public class PrestadorServiceImpl implements PrestadorService {
     @Override
     @Transactional
     public PrestadorResponseDTO atualizarPrestador(AtualizarPrestadorRequestDTO prestadorRequestDTO) {
-        UUID id = obterIdPrestador();
-        Prestador prestador = buscarPrestadorPorId(id);
+        Prestador prestador = obterPrestadorDoUsuarioLogado();
 
         prestador.setNome(prestadorRequestDTO.nome());
         prestador.setNomeFantasia(prestadorRequestDTO.nomeFantasia());
@@ -65,10 +64,9 @@ public class PrestadorServiceImpl implements PrestadorService {
     @Override
     @Transactional
     public void excluirPrestador() {
-        UUID id = obterIdPrestador();
-        buscarPrestadorPorId(id);
+        Prestador prestador = obterPrestadorDoUsuarioLogado();
 
-        prestadorRepository.deleteById(id);
+        prestadorRepository.delete(prestador);
     }
 
     @Override
@@ -102,10 +100,10 @@ public class PrestadorServiceImpl implements PrestadorService {
         return PrestadorMapper.toPrestadorResponseDTOList(prestadores);
     }
 
-    private UUID obterIdPrestador() {
+    private Prestador obterPrestadorDoUsuarioLogado() {
         Usuario usuarioLogado = securityService.obterUsuarioLogado();
         Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
 
-        return operador.getPrestador().getId();
+        return operador.getPrestador();
     }
 }
