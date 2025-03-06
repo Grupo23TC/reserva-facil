@@ -7,21 +7,21 @@ import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaInvalidaE
 import br.com.fiap.hackathon.reservafacil.exception.reserva.DataReservaNaoDisponivelException;
 import br.com.fiap.hackathon.reservafacil.exception.reserva.ReservaNaoEncontradaException;
 import br.com.fiap.hackathon.reservafacil.mapper.ReservaMapper;
-import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
-import br.com.fiap.hackathon.reservafacil.model.Medicamento;
-import br.com.fiap.hackathon.reservafacil.model.Prestador;
-import br.com.fiap.hackathon.reservafacil.model.Reserva;
+import br.com.fiap.hackathon.reservafacil.model.*;
 import br.com.fiap.hackathon.reservafacil.model.dto.medicamento.AtualizarMedicamentoRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.reserva.CadastrarReservaRequestDTO;
 import br.com.fiap.hackathon.reservafacil.model.dto.reserva.ReservaResponseDTO;
 import br.com.fiap.hackathon.reservafacil.model.enums.TipoMedicamentoEnum;
 import br.com.fiap.hackathon.reservafacil.repository.ReservaRepository;
+import br.com.fiap.hackathon.reservafacil.security.CustomAuthentication;
+import br.com.fiap.hackathon.reservafacil.security.SecurityService;
 import br.com.fiap.hackathon.reservafacil.service.BeneficiarioService;
 import br.com.fiap.hackathon.reservafacil.service.MedicamentoService;
 import br.com.fiap.hackathon.reservafacil.service.PrestadorService;
 import br.com.fiap.hackathon.reservafacil.service.ReservaService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -45,6 +45,9 @@ public class ReservaServiceImpl implements ReservaService {
     @Autowired
     private MedicamentoService medicamentoService;
 
+    @Autowired
+    private SecurityService securityService;
+
     @Override
     @Transactional
     public ReservaResponseDTO cadastrarReserva(CadastrarReservaRequestDTO dto) {
@@ -62,7 +65,8 @@ public class ReservaServiceImpl implements ReservaService {
         Reserva reserva = new Reserva();
         reserva.setDataReserva(dto.dataReserva());
 
-        Beneficiario beneficiario = beneficiarioService.buscarPorCns(dto.cns());
+        Usuario usuarioLogado = securityService.obterUsuarioLogado();
+        Beneficiario beneficiario = beneficiarioService.buscarPorCns(usuarioLogado.getCns());
         reserva.setBeneficiario(beneficiario);
 
         Prestador prestador = prestadorService.buscarPrestadorPorId(dto.idPrestador());
@@ -92,7 +96,7 @@ public class ReservaServiceImpl implements ReservaService {
 
         // Decrementar estoque
         AtualizarMedicamentoRequestDTO medDTO = new AtualizarMedicamentoRequestDTO(null, medicamento.getQuantidade() - 1, null);
-        medicamentoService.atualizarMedicamento(medicamento.getId(), medDTO);
+        medicamentoService.atualizarMedicamento(medicamento.getId(), medDTO, true);
 
         return ReservaMapper.toReservaResponseDTO(reservaRepository.save(reserva));
     }
@@ -143,7 +147,7 @@ public class ReservaServiceImpl implements ReservaService {
 
         // Incrementar estoque
         AtualizarMedicamentoRequestDTO medDTO = new AtualizarMedicamentoRequestDTO(null, reserva.getMedicamento().getQuantidade() + 1, null);
-        medicamentoService.atualizarMedicamento(reserva.getMedicamento().getId(), medDTO);
+        medicamentoService.atualizarMedicamento(reserva.getMedicamento().getId(), medDTO, true);
 
         reservaRepository.deleteById(id);
     }

@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface MedicamentoService {
 
     MedicamentoResponseDTO cadastrarMedicamento(CadastrarMedicamentoRequestDTO dto);
-    MedicamentoResponseDTO atualizarMedicamento(UUID id, AtualizarMedicamentoRequestDTO dto);
+    MedicamentoResponseDTO atualizarMedicamento(UUID id, AtualizarMedicamentoRequestDTO dto, boolean atualizandoPorReserva);
     void excluirMedicamento(UUID id);
 
     Medicamento buscarMedicamento(UUID id);

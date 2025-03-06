@@ -5,7 +5,6 @@ import java.util.UUID;
 
 public record CadastrarReservaRequestDTO (
         LocalDateTime dataReserva,
-        String cns,
         UUID idPrestador,
         UUID idMedicamento
 ){
