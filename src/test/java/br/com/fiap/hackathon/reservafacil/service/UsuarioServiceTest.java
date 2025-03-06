@@ -3,7 +3,7 @@ package br.com.fiap.hackathon.reservafacil.service;
 import br.com.fiap.hackathon.reservafacil.exception.role.RoleNaoEncontradaException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoEncontradoException;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.repository.RoleRepository;
@@ -224,7 +224,7 @@ public class UsuarioServiceTest {
 
             assertThatThrownBy(() -> service.atualizarSenhaUsuario(cns, novaSenha))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(NAO_FOI_POSSIVEL_ALTERAR_A_SENHA);
 
             verify(repository, times(1)).findByCns(anyString());
@@ -285,7 +285,7 @@ public class UsuarioServiceTest {
 
             assertThatThrownBy(() -> service.desativar(cns))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(NAO_FOI_POSSIVEL_DESATIVAR_USUARIO);
 
             verify(repository, times(1)).findByCns(anyString());
@@ -345,7 +345,7 @@ public class UsuarioServiceTest {
 
             assertThatThrownBy(() -> service.ativar(cns))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(NAO_FOI_POSSIVEL_ATIVAR_USUARIO);
 
             verify(repository, times(1)).findByCns(anyString());

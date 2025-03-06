@@ -3,7 +3,7 @@ package br.com.fiap.hackathon.reservafacil.service.impl;
 import br.com.fiap.hackathon.reservafacil.exception.role.RoleNaoEncontradaException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoEncontradoException;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.model.Role;
 import br.com.fiap.hackathon.reservafacil.model.Usuario;
 import br.com.fiap.hackathon.reservafacil.repository.RoleRepository;
@@ -59,7 +59,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível alterar a senha."));
 
         if(usuariosNaoSaoIguais(cns))
-            throw new UsuarioNaoIguaisException("Não foi possível alterar a senha.");
+            throw new AcessoNegadoException("Não foi possível alterar a senha.");
 
         var senha = passwordEncoder.encode(novaSenha);
         usuario.setSenha(senha);
@@ -73,7 +73,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível desativar usuário."));
 
         if(usuariosNaoSaoIguais(cns))
-            throw new UsuarioNaoIguaisException("Não foi possível desativar usuário.");
+            throw new AcessoNegadoException("Não foi possível desativar usuário.");
 
         usuario.setAtivo(false);
         return usuarioRepository.save(usuario);
@@ -85,7 +85,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Não foi possível ativar usuário."));
 
         if(usuariosNaoSaoIguais(cns))
-            throw new UsuarioNaoIguaisException("Não foi possível ativar usuário.");
+            throw new AcessoNegadoException("Não foi possível ativar usuário.");
 
         usuario.setAtivo(true);
         return usuarioRepository.save(usuario);

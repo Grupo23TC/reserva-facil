@@ -3,7 +3,7 @@ package br.com.fiap.hackathon.reservafacil.service.impl;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.role.RoleNaoEncontradaException;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.mapper.EnderecoMapper;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.Role;
@@ -53,7 +53,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
                 .orElseThrow(() -> new BeneficiarioNaoEncontradoException("Beneficiário não encontrado"));
 
         if(usuariosNaoSaoIguais(cns)) {
-            throw new UsuarioNaoIguaisException("Você não pode ter acesso ou alterar os dados de outros beneficiários");
+            throw new AcessoNegadoException("Você não pode ter acesso ou alterar os dados de outros beneficiários");
         }
 
         return beneficiario;

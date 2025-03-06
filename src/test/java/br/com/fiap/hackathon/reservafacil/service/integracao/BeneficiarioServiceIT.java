@@ -3,10 +3,9 @@ package br.com.fiap.hackathon.reservafacil.service.integracao;
 import br.com.fiap.hackathon.reservafacil.util.AuthUtil;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
-import br.com.fiap.hackathon.reservafacil.exception.usuario.UsuarioNaoIguaisException;
+import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBeneficiarioRequest;
-import br.com.fiap.hackathon.reservafacil.service.BeneficiarioService;
 import br.com.fiap.hackathon.reservafacil.service.impl.BeneficiarioServiceImpl;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -97,7 +96,7 @@ public class BeneficiarioServiceIT {
 
             assertThatThrownBy(() -> service.buscarPorCns("987654321098765"))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(ACESSO_NEGADO);
         }
     }
@@ -133,7 +132,7 @@ public class BeneficiarioServiceIT {
 
             assertThatThrownBy(() -> service.ativar("987654321098765"))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(ACESSO_NEGADO);
         }
     }
@@ -169,7 +168,7 @@ public class BeneficiarioServiceIT {
 
             assertThatThrownBy(() -> service.desativar("987654321098765"))
                     .isNotNull()
-                    .isInstanceOf(UsuarioNaoIguaisException.class)
+                    .isInstanceOf(AcessoNegadoException.class)
                     .hasMessage(ACESSO_NEGADO);
         }
     }

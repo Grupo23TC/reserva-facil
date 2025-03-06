@@ -1,14 +1,20 @@
 package br.com.fiap.hackathon.reservafacil.controller;
 
-import br.com.fiap.hackathon.reservafacil.util.JsonStringHelper;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.handler.GlobalExceptionHandler;
+import br.com.fiap.hackathon.reservafacil.exception.operador.OperadorCadastradoException;
+import br.com.fiap.hackathon.reservafacil.exception.operador.OperadorNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.model.Beneficiario;
+import br.com.fiap.hackathon.reservafacil.model.Operador;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.BeneficiarioResponse;
 import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBeneficiarioRequest;
+import br.com.fiap.hackathon.reservafacil.model.dto.operador.CadastrarOperadorRequest;
+import br.com.fiap.hackathon.reservafacil.service.OperadorService;
 import br.com.fiap.hackathon.reservafacil.service.impl.BeneficiarioServiceImpl;
+import br.com.fiap.hackathon.reservafacil.service.impl.OperadorServiceImpl;
+import br.com.fiap.hackathon.reservafacil.util.JsonStringHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -23,22 +29,24 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static br.com.fiap.hackathon.reservafacil.util.BeneficiarioUtil.*;
+import static br.com.fiap.hackathon.reservafacil.util.OperadorUtil.gerarCadastrarOperadorRequest;
+import static br.com.fiap.hackathon.reservafacil.util.OperadorUtil.gerarOperador;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class BeneficiarioControllerTest {
+public class OperadorControllerTest {
     private static final String ACESSO_NEGADO = "Você não pode ter acesso ou alterar os dados de outros beneficiários";
-    private static final String BENEFICIARIO_NAO_ENCONTRADO = "Beneficiário não encontrado";
-    private static final String BENEFICIARIO_JA_EXISTE = "Beneficiário já cadastrado";
+    private static final String OPERADOR_NAO_ENCONTRADO = "Beneficiário não encontrado";
+    private static final String OPERADOR_JA_EXISTE = "Beneficiário já cadastrado";
 
     @Mock
-    private BeneficiarioServiceImpl service;
+    private OperadorServiceImpl service;
 
     @InjectMocks
-    private BeneficiarioController controller;
+    private OperadorController controller;
 
     private MockMvc mockMvc;
 
@@ -64,85 +72,63 @@ public class BeneficiarioControllerTest {
     }
 
     @Nested
-    class CadastrarBeneficiario {
+    class CadastrarOperador {
         @Test
-        void deveCadastrarBeneficiario() throws Exception {
-            CadastrarBeneficiarioRequest request = gerarCadastrarBeneficiarioRequest("012345678901234", "01234567890");
-            Beneficiario beneficiario = gerarBeneficiario();
+        void deveCadastrarOperador() throws Exception {
+            CadastrarOperadorRequest request = gerarCadastrarOperadorRequest();
+            Operador operador = gerarOperador();
 
-            when(service.cadastrar(any(CadastrarBeneficiarioRequest.class))).thenReturn(beneficiario);
+            when(service.cadastrar(any(CadastrarOperadorRequest.class))).thenReturn(operador);
 
             mockMvc.perform(
-                            post("/api/v1/beneficiarios")
+                            post("/api/v1/operadores")
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(JsonStringHelper.asJsonString(request))
                     )
                     .andExpect(status().isCreated())
-                    .andExpect(jsonPath("$.cns").value(beneficiario.getCns()))
-                    .andExpect(jsonPath("$.nome").value(beneficiario.getNome()))
-                    .andExpect(jsonPath("$.cpf").value(beneficiario.getCpf()));
+                    .andExpect(jsonPath("$.cns").value(operador.getCns()))
+                    .andExpect(jsonPath("$.nome").value(operador.getNome()))
+                    .andExpect(jsonPath("$.cargo").value(operador.getCargo()));
 
-            verify(service, times(1)).cadastrar(any(CadastrarBeneficiarioRequest.class));
+            verify(service, times(1)).cadastrar(any(CadastrarOperadorRequest.class));
         }
 
         @Test
-        void deveGerarExcecao_QuandoCadastrarBeneficiario_CnsJaCadastrado() throws Exception {
-            CadastrarBeneficiarioRequest request = gerarCadastrarBeneficiarioRequest("012345678901234", "01234567890");
+        void deveGerarExcecao_QuandoCadastrarOperador_CnsJaCadastrado() throws Exception {
+            CadastrarOperadorRequest request = gerarCadastrarOperadorRequest("234567890123456");
 
-            when(service.cadastrar(any(CadastrarBeneficiarioRequest.class)))
-                    .thenThrow(new BeneficiarioCadastradoException(BENEFICIARIO_JA_EXISTE));
+            when(service.cadastrar(any(CadastrarOperadorRequest.class)))
+                    .thenThrow(new OperadorCadastradoException(OPERADOR_JA_EXISTE));
 
             mockMvc.perform(
-                            post("/api/v1/beneficiarios")
+                            post("/api/v1/operadores")
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(JsonStringHelper.asJsonString(request))
                     )
                     .andExpect(status().isConflict())
                     .andExpect(jsonPath("$.horario").exists())
                     .andExpect(jsonPath("$.status").value(HttpStatus.CONFLICT.value()))
-                    .andExpect(jsonPath("$.erro").value(BENEFICIARIO_JA_EXISTE))
-                    .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios"));
+                    .andExpect(jsonPath("$.erro").value(OPERADOR_JA_EXISTE))
+                    .andExpect(jsonPath("$.rota").value("/api/v1/operadores"));
 
-            verify(service, times(1)).cadastrar(any(CadastrarBeneficiarioRequest.class));
-        }
-
-        @Test
-        void deveGerarExcecao_QuandoCadastrarBeneficiario_CpfJaCadastrado() throws Exception {
-            CadastrarBeneficiarioRequest request = gerarCadastrarBeneficiarioRequest("012345678901234", "01234567890");
-
-            when(service.cadastrar(any(CadastrarBeneficiarioRequest.class)))
-                    .thenThrow(new BeneficiarioCadastradoException(BENEFICIARIO_JA_EXISTE));
-
-            mockMvc.perform(
-                            post("/api/v1/beneficiarios")
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(JsonStringHelper.asJsonString(request))
-                    )
-                    .andExpect(status().isConflict())
-                    .andExpect(jsonPath("$.horario").exists())
-                    .andExpect(jsonPath("$.status").value(HttpStatus.CONFLICT.value()))
-                    .andExpect(jsonPath("$.erro").value(BENEFICIARIO_JA_EXISTE))
-                    .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios"));
-
-            verify(service, times(1)).cadastrar(any(CadastrarBeneficiarioRequest.class));
+            verify(service, times(1)).cadastrar(any(CadastrarOperadorRequest.class));
         }
     }
 
     @Nested
-    class BuscarBeneficiario {
+    class BuscarOperador {
         @Test
         void deveBuscarPorCns() throws Exception {
-            String cns = "654987123065482";
-            Beneficiario beneficiario = gerarBeneficiario();
-            BeneficiarioResponse beneficiarioResponse = gerarBeneficiarioResponse();
+            String cns = "234567890123456";
+            Operador operador = gerarOperador();
 
-            when(service.buscarPorCns(anyString())).thenReturn(beneficiario);
+            when(service.buscarPorCns(anyString())).thenReturn(operador);
 
-            mockMvc.perform(get("/api/v1/beneficiarios/{cns}", cns))
+            mockMvc.perform(get("/api/v1/operadores/{cns}", cns))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.cns").value(cns))
-                    .andExpect(jsonPath("$.nome").value(beneficiario.getNome()))
-                    .andExpect(jsonPath("$.cpf").value(beneficiario.getCpf()));
+                    .andExpect(jsonPath("$.nome").value(operador.getNome()))
+                    .andExpect(jsonPath("$.cargo").value(operador.getCargo()));
 
             verify(service, times(1)).buscarPorCns(anyString());
         }
@@ -152,14 +138,14 @@ public class BeneficiarioControllerTest {
             String cns = "654987123065482";
 
             when(service.buscarPorCns(anyString()))
-                    .thenThrow(new BeneficiarioNaoEncontradoException(BENEFICIARIO_NAO_ENCONTRADO));
+                    .thenThrow(new OperadorNaoEncontradoException(OPERADOR_NAO_ENCONTRADO));
 
-            mockMvc.perform(get("/api/v1/beneficiarios/{cns}", cns))
+            mockMvc.perform(get("/api/v1/operadores/{cns}", cns))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("$.horario").exists())
                     .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
-                    .andExpect(jsonPath("$.erro").value(BENEFICIARIO_NAO_ENCONTRADO))
-                    .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
+                    .andExpect(jsonPath("$.erro").value(OPERADOR_NAO_ENCONTRADO))
+                    .andExpect(jsonPath("$.rota").value("/api/v1/operadores/"+cns));
 
             verify(service, times(1)).buscarPorCns(anyString());
         }
@@ -171,67 +157,66 @@ public class BeneficiarioControllerTest {
             when(service.buscarPorCns(anyString()))
                     .thenThrow(new AcessoNegadoException(ACESSO_NEGADO));
 
-            mockMvc.perform(get("/api/v1/beneficiarios/{cns}", cns))
+            mockMvc.perform(get("/api/v1/operadores/{cns}", cns))
                     .andExpect(status().isForbidden())
                     .andExpect(jsonPath("$.horario").exists())
                     .andExpect(jsonPath("$.status").value(HttpStatus.FORBIDDEN.value()))
                     .andExpect(jsonPath("$.erro").value(ACESSO_NEGADO))
-                    .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
+                    .andExpect(jsonPath("$.rota").value("/api/v1/operadores/"+cns));
 
             verify(service, times(1)).buscarPorCns(anyString());
         }
     }
 
     @Nested
-    class AtivarBeneficiario {
+    class AtivarOperador {
         @Test
-        void deveAtivarBeneficiario() throws Exception {
-            String cns = "654987123065482";
-            Beneficiario beneficiario = gerarBeneficiario();
-            BeneficiarioResponse beneficiarioResponse = gerarBeneficiarioResponse();
+        void deveAtivarOperador() throws Exception {
+            String cns = "234567890123456";
+            Operador operador = gerarOperador();
 
-            when(service.ativar(anyString())).thenReturn(beneficiario);
+            when(service.ativar(anyString())).thenReturn(operador);
 
-            mockMvc.perform(patch("/api/v1/beneficiarios/{cns}", cns))
+            mockMvc.perform(patch("/api/v1/operadores/{cns}", cns))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.cns").value(cns))
-                    .andExpect(jsonPath("$.nome").value(beneficiario.getNome()))
-                    .andExpect(jsonPath("$.ativo").value(beneficiario.getAtivo()))
-                    .andExpect(jsonPath("$.cpf").value(beneficiario.getCpf()));
+                    .andExpect(jsonPath("$.nome").value(operador.getNome()))
+                    .andExpect(jsonPath("$.ativo").value(operador.getAtivo()))
+                    .andExpect(jsonPath("$.cargo").value(operador.getCargo()));
 
             verify(service, times(1)).ativar(anyString());
         }
 
         @Test
-        void deveGerarExcecao_QuandoAtivarBeneficiario_CnsNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoAtivarOperador_CnsNaoEncontrado() throws Exception {
             String cns = "654987123065482";
 
             when(service.ativar(anyString()))
-                    .thenThrow(new BeneficiarioNaoEncontradoException(BENEFICIARIO_NAO_ENCONTRADO));
+                    .thenThrow(new OperadorNaoEncontradoException(OPERADOR_NAO_ENCONTRADO));
 
-            mockMvc.perform(patch("/api/v1/beneficiarios/{cns}", cns))
+            mockMvc.perform(patch("/api/v1/operadores/{cns}", cns))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("$.horario").exists())
                     .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
-                    .andExpect(jsonPath("$.erro").value(BENEFICIARIO_NAO_ENCONTRADO))
-                    .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
+                    .andExpect(jsonPath("$.erro").value(OPERADOR_NAO_ENCONTRADO))
+                    .andExpect(jsonPath("$.rota").value("/api/v1/operadores/"+cns));
 
             verify(service, times(1)).ativar(anyString());
         }
 
         @Test
-        void deveGerarExcecao_QuandoAtivarBeneficiario_AcessoNegado() throws Exception {
+        void deveGerarExcecao_QuandoAtivarOperador_AcessoNegado() throws Exception {
             String cns = "654987123065482";
 
             when(service.ativar(anyString()))
                     .thenThrow(new AcessoNegadoException(ACESSO_NEGADO));
 
-            mockMvc.perform(patch("/api/v1/beneficiarios/{cns}", cns))
+            mockMvc.perform(patch("/api/v1/operadores/{cns}", cns))
                     .andExpect(status().isForbidden())
                     .andExpect(jsonPath("$.horario").exists())
                     .andExpect(jsonPath("$.status").value(HttpStatus.FORBIDDEN.value()))
                     .andExpect(jsonPath("$.erro").value(ACESSO_NEGADO))
-                    .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
+                    .andExpect(jsonPath("$.rota").value("/api/v1/operadores/"+cns));
 
             verify(service, times(1)).ativar(anyString());
         }
@@ -240,53 +225,52 @@ public class BeneficiarioControllerTest {
     @Nested
     class DesativarBeneficiario {
         @Test
-        void deveDesativarBeneficiario() throws Exception {
+        void deveDesativarOperador() throws Exception {
             String cns = "654987123065482";
-            Beneficiario beneficiario = gerarBeneficiario(false);
-            BeneficiarioResponse beneficiarioResponse = gerarBeneficiarioResponse(false);
+            Operador operador = gerarOperador(cns, false);
 
-            when(service.desativar(anyString())).thenReturn(beneficiario);
+            when(service.desativar(anyString())).thenReturn(operador);
 
-            mockMvc.perform(delete("/api/v1/beneficiarios/{cns}", cns))
+            mockMvc.perform(delete("/api/v1/operadores/{cns}", cns))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.cns").value(cns))
-                    .andExpect(jsonPath("$.nome").value(beneficiario.getNome()))
-                    .andExpect(jsonPath("$.ativo").value(beneficiario.getAtivo()))
-                    .andExpect(jsonPath("$.cpf").value(beneficiario.getCpf()));
+                    .andExpect(jsonPath("$.nome").value(operador.getNome()))
+                    .andExpect(jsonPath("$.ativo").value(operador.getAtivo()))
+                    .andExpect(jsonPath("$.cargo").value(operador.getCargo()));
 
             verify(service, times(1)).desativar(anyString());
         }
 
         @Test
-        void deveGerarExcecao_QuandoDesativarBeneficiario_CnsNaoEncontrado() throws Exception {
+        void deveGerarExcecao_QuandoDesativarOperador_CnsNaoEncontrado() throws Exception {
             String cns = "654987123065482";
 
             when(service.desativar(anyString()))
-                    .thenThrow(new BeneficiarioNaoEncontradoException(BENEFICIARIO_NAO_ENCONTRADO));
+                    .thenThrow(new OperadorNaoEncontradoException(OPERADOR_NAO_ENCONTRADO));
 
-            mockMvc.perform(delete("/api/v1/beneficiarios/{cns}", cns))
+            mockMvc.perform(delete("/api/v1/operadores/{cns}", cns))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("$.horario").exists())
                     .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
-                    .andExpect(jsonPath("$.erro").value(BENEFICIARIO_NAO_ENCONTRADO))
-                    .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
+                    .andExpect(jsonPath("$.erro").value(OPERADOR_NAO_ENCONTRADO))
+                    .andExpect(jsonPath("$.rota").value("/api/v1/operadores/"+cns));
 
             verify(service, times(1)).desativar(anyString());
         }
 
         @Test
-        void deveGerarExcecao_QuandoDesativarBeneficiario_AcessoNegado() throws Exception {
+        void deveGerarExcecao_QuandoDesativarOperador_AcessoNegado() throws Exception {
             String cns = "654987123065482";
 
             when(service.desativar(anyString()))
                     .thenThrow(new AcessoNegadoException(ACESSO_NEGADO));
 
-            mockMvc.perform(delete("/api/v1/beneficiarios/{cns}", cns))
+            mockMvc.perform(delete("/api/v1/operadores/{cns}", cns))
                     .andExpect(status().isForbidden())
                     .andExpect(jsonPath("$.horario").exists())
                     .andExpect(jsonPath("$.status").value(HttpStatus.FORBIDDEN.value()))
                     .andExpect(jsonPath("$.erro").value(ACESSO_NEGADO))
-                    .andExpect(jsonPath("$.rota").value("/api/v1/beneficiarios/"+cns));
+                    .andExpect(jsonPath("$.rota").value("/api/v1/operadores/"+cns));
 
             verify(service, times(1)).desativar(anyString());
         }

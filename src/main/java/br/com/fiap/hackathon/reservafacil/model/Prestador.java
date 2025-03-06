@@ -27,6 +27,7 @@ public class Prestador {
     @JoinColumn(name="enderecoId")
     private Endereco endereco;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_prestador")
     private TipoPrestadorEnum tipoPrestadorEnum;
 
@@ -34,4 +35,6 @@ public class Prestador {
     @OneToMany(mappedBy = "prestador", cascade = CascadeType.ALL)
     private List<Medicamento> medicamentos;
 
+    @OneToMany(mappedBy = "prestador", cascade = CascadeType.ALL)
+    private List<Operador> operadores;
 }
