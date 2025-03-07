@@ -5,7 +5,7 @@ import br.com.fiap.hackathon.reservafacil.security.CustomAuthentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarUsuario;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarioUtil.gerarUsuario;
 
 public class AuthUtil {
     public static void autenticar(String cns) {

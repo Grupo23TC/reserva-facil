@@ -1,6 +1,6 @@
 services:
   app-reserva-facil:
-    image: 'reserva-facil:dev'
+    image: 'reserva-facil:homolog'
     build:
       context: .
       dockerfile: Dockerfile

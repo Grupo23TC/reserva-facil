@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import static br.com.fiap.hackathon.reservafacil.util.RoleUtil.gerarRole;
 
-public class UsuarilUtil {
+public class UsuarioUtil {
     public static CadastrarUsuarioRequest gerarCadastrarUsuarioRequest() {
         return new CadastrarUsuarioRequest(
                 "654987123065482",

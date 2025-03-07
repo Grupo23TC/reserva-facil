@@ -1,4 +1,4 @@
-# Reserva de Medicamentos - SUS
+# Reserva-Facil
 
 ### Proposta de projeto pós-graduação FIAP - Hackathon
 
@@ -14,22 +14,38 @@
 ## Descrição do projeto
 
 <p align="justify">
-Este projeto apresenta o desenvolvimento de um novo sistema de Reserva de Medicamentos para tentar resolver o problema do SUS.
+Este projeto tem como objetivo a implementação de um sistema de reservas e gerenciamento de estoque, com a finalidade de reduzir filas e tornar o processo de aquisição de medicamentos pelo SUS mais eficiente.
 </p>
 
 ## Funcionalidades
 
-`Funcionalidade 1:` Cadastro de Medicamentos
+`Funcionalidade 1:` CRUD Beneficiários
+- Apenas o Beneficiario logado pode consultar/alterar o seu próprio cadastro;
 
-`Funcionalidade 2:` Listagem de Medicamentos
+`Funcionalidade 2:` CRUD Operadores
+- Apenas o Operador logado pode consultar/alterar o seu próprio cadastro;
 
-`Funcionalidade 3:` Deletar Medicamentos
+`Funcionalidade 3:` CRUD Prestadores
+- Apenas Operadores podem alterar/remover Prestadores que estejam relacionados ao seu cadastro;
+- Tanto Operadores quanto Beneficiarios podem realizar as diversas consultas;
 
-`Funcionalidade 4:` Atualizar Medicamentos
+`Funcionalidade 4:` CRUD Medicamentos/Documentos
+- Apenas Operadores podem cadastrar/alterar/consultar/remover medicamentos relacionados ao prestador que o Operador está empregrado;
 
-`Funcionalidade 5:` Fazer a reserva de Medicamentos
+`Funcionalidade 5:` Autenticação token JWT para Beneficiarios e Operadores;
+- Login via cns e senha(senha padrão = "123");
 
-`Funcionalidade 5:` Retirada de Medicamentos
+`Funcionalidade 6:` Busca de prestadores por cidade e medicamento;
+- Tanto Operadores quanto Beneficiarios podem realizar a consulta;
+
+`Funcionalidade 7:` Busca de horarios disponiveis de um Prestador;
+- Tanto Operadores quanto Beneficiarios podem realizar a consulta;
+
+`Funcionalidade 8:` Agendamento de reservas de retirada de medicamento
+- Apenas Beneficiarios podem realizar agendamentos de reservas;
+- A data da reserva deve ser futura e com minutagem(00, 15, 30 ou 45);
+- Apenas 3 reservas por horario são disponiveis por prestador;
+- O medicamento deve estar disponivel no estoque, pertencer ao prestador informado e estar de acordo com o tipo de medicamento permitido para o Beneficiario;
 
 
 ## Ferramentas utilizadas
@@ -47,7 +63,12 @@ Este projeto apresenta o desenvolvimento de um novo sistema de Reserva de Medica
     <img src="https://camo.githubusercontent.com/47ab606787e47aee8033b92c8f1d05c0e74b9b81904550f35a8f54e39f6c993b/68747470733a2f2f6a756e69742e6f72672f6a756e6974352f6173736574732f696d672f6a756e6974352d6c6f676f2e706e67" alt="JUnit" width="40" height="40"/> 
 </a>
 
-<a href="https://www.mysql.com/" target="_blank"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt="MySQL" width="40" /> </a>
+<a href="https://www.postgresql.org/" target="_blank"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-plain.svg" width="40"/> </a>
+
+
+<a href="https://www.docker.com/" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-plain.svg" width="40"/>
+</a>
 
 
 
@@ -57,19 +78,14 @@ Você pode [acessar o código fonte do projeto](https://github.com/Grupo23TC/res
 
 ## Abrir e rodar o projeto
 
-Antes de iniciar o projeto, devemos ter a seguinte rede no docker:
-PS: caso você já tenha criado, não precisa criá-la novamente.
+Para um teste mais rápido suba a aplicação com o perfil spring **DEV** que utiliza um banco de dados H2 e conta com um seed sql.
 
-docker network create shared_network
-
-Para rodar o projeto localmente precisamos do  Docker Hub instalado.
-Rode o comando:
-bash
-docker-compose up
-
-Confira em seu Docker Desktop a subida do container e suas respectivas aplicações e bancos de dados isolados.
+Caso queria utilizar o banco Postgres, mude o perfil spring para **HOMOLOG**. Será necessário ter o Docker Hub instalado e rodando, então rode o comando ``docker-compose up``.
+Será criada a imagem reserva-facil:homolog e um container com a aplicação e banco de dados rodando.
 
 Para você acessar o Swagger, basta, enquanto o projeto estiver em execução, acessar o link: http://localhost:8080/swagger-ui/index.html
+
+Ou você pode utilizar a collection do Postman disponível no [Drive](https://drive.google.com/drive/u/1/folders/1AJozTwnxzFJrdN49s9lKb8Sivb8gsoPE)
 
 
 ## Desenvolvedores
@@ -109,3 +125,5 @@ Para você acessar o Swagger, basta, enquanto o projeto estiver em execução, a
             <a href="https://github.com/lucasctteixeira" alt="Github"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" height="20"></a>
       </div>
     </td>
+</tr>
+</table>

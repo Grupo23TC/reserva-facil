@@ -13,7 +13,6 @@ import br.com.fiap.hackathon.reservafacil.model.dto.reserva.CadastrarReservaRequ
 import br.com.fiap.hackathon.reservafacil.model.dto.reserva.ReservaResponseDTO;
 import br.com.fiap.hackathon.reservafacil.model.enums.TipoMedicamentoEnum;
 import br.com.fiap.hackathon.reservafacil.repository.ReservaRepository;
-import br.com.fiap.hackathon.reservafacil.security.CustomAuthentication;
 import br.com.fiap.hackathon.reservafacil.security.SecurityService;
 import br.com.fiap.hackathon.reservafacil.service.BeneficiarioService;
 import br.com.fiap.hackathon.reservafacil.service.MedicamentoService;
@@ -21,7 +20,6 @@ import br.com.fiap.hackathon.reservafacil.service.PrestadorService;
 import br.com.fiap.hackathon.reservafacil.service.ReservaService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
