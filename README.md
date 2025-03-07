@@ -84,6 +84,8 @@ Para você acessar o Swagger, basta, enquanto o projeto estiver em execução, a
 
 Ou você pode utilizar a collection do Postman disponível no [Drive](https://drive.google.com/drive/u/1/folders/1AJozTwnxzFJrdN49s9lKb8Sivb8gsoPE)
 
+### CUIDADO
+Como estamos o selenium para fazer o login na aplicação e obter o token jwt para fazermos corretamente os testes de controller de integração da nossa aplicação, recomendamos usar o navegador Google Chrome na sua versão 134.0.6998.36 para que não haja falhas nesses testes. Para facilitar o uso do selenium, colocamos o webdriver do Google Chrome dentro dos pacotes de testes, isso deve facilitar a execução do mesmo e evitar conflitos de versões, erros ou outros imprevistos que podem surgir.
 
 ## Desenvolvedores
 
