@@ -49,7 +49,7 @@ INSERT INTO beneficiario (
     '11999999999',
     'FAIXA_0_a_18',
     'OUTROS',
-    'ESPECIAIS',
+    'TARJA_VERMELHA',
     true,
     '550e8400-e29b-41d4-a716-446655440001',
     '550e8400-e29b-41d4-a716-446655440005'

@@ -47,7 +47,7 @@ public class MedicamentoController {
     ) {
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(service.atualizarMedicamento(id, medicamento));
+        return ResponseEntity.status(HttpStatus.OK).body(service.atualizarMedicamento(id, medicamento, false));
     }
 
 

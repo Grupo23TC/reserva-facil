@@ -159,7 +159,7 @@ public class MedicamentoServiceTest {
             when(medicamentoRepository.save(any(Medicamento.class))).thenReturn(medicamento);
 
             AtualizarMedicamentoRequestDTO dto = MedicamentoUtil.gerarAtualizarMedicamentoRequestDTO();
-            var result = medicamentoService.atualizarMedicamento(medicamento.getId(), dto);
+            var result = medicamentoService.atualizarMedicamento(medicamento.getId(), dto, false);
 
             assertThat(result)
                     .isInstanceOf(MedicamentoResponseDTO.class)
@@ -177,7 +177,7 @@ public class MedicamentoServiceTest {
             when(medicamentoRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
             AtualizarMedicamentoRequestDTO dto = MedicamentoUtil.gerarAtualizarMedicamentoRequestDTO();
-            assertThatThrownBy(() -> medicamentoService.atualizarMedicamento(id, dto))
+            assertThatThrownBy(() -> medicamentoService.atualizarMedicamento(id, dto, false))
                     .isInstanceOf(MedicamentoNaoEncontradoException.class)
                     .hasMessage(message);
         }

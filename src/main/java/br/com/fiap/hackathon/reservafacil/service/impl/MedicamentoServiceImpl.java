@@ -49,11 +49,16 @@ public class MedicamentoServiceImpl implements MedicamentoService {
 
     @Override
     @Transactional
-    public MedicamentoResponseDTO atualizarMedicamento(UUID id, AtualizarMedicamentoRequestDTO dto) {
+    public MedicamentoResponseDTO atualizarMedicamento(
+            UUID id,
+            AtualizarMedicamentoRequestDTO dto,
+            boolean atualizandoPorReserva
+    ) {
         Medicamento medicamento = buscarMedicamento(id);
         verificarOperadorEPrestador(
                 medicamento.getPrestador().getId(),
-                "Você não pode atualizar um medicamento de um prestador que você não está associado."
+                "Você não pode atualizar um medicamento de um prestador que você não está associado.",
+                atualizandoPorReserva
         );
 
         if (dto.nome() != null && !dto.nome().isEmpty()) {
@@ -74,7 +79,8 @@ public class MedicamentoServiceImpl implements MedicamentoService {
         Medicamento medicamento = buscarMedicamento(id);
         verificarOperadorEPrestador(
                 medicamento.getPrestador().getId(),
-                "Você não pode deletar um medicamento de um prestador que você não está associado."
+                "Você não pode deletar um medicamento de um prestador que você não está associado.",
+                false
         );
 
         medicamentoRepository.deleteById(id);
@@ -99,8 +105,10 @@ public class MedicamentoServiceImpl implements MedicamentoService {
         return medicamentoRepository.findAll().stream().map(MedicamentoMapper::toMedicamentoResponseDTO).toList();
     }
 
-    private void verificarOperadorEPrestador(UUID prestadorId, String message) {
+    private void verificarOperadorEPrestador(UUID prestadorId, String message, boolean atualizandoPorReserva) {
+        if (atualizandoPorReserva) return;
         Usuario usuarioLogado = securityService.obterUsuarioLogado();
+
         Operador operador = operadorService.buscarPorCns(usuarioLogado.getCns());
 
         if (!operador.getPrestador().getId().equals(prestadorId)) {
