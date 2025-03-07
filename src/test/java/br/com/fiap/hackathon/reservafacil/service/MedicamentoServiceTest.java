@@ -1,7 +1,6 @@
 package br.com.fiap.hackathon.reservafacil.service;
 
 import br.com.fiap.hackathon.reservafacil.exception.medicamento.MedicamentoNaoEncontradoException;
-import br.com.fiap.hackathon.reservafacil.exception.prestador.PrestadorNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.model.Medicamento;
 import br.com.fiap.hackathon.reservafacil.model.Operador;
 import br.com.fiap.hackathon.reservafacil.model.Prestador;
@@ -11,7 +10,6 @@ import br.com.fiap.hackathon.reservafacil.model.dto.medicamento.MedicamentoRespo
 import br.com.fiap.hackathon.reservafacil.repository.MedicamentoRepository;
 import br.com.fiap.hackathon.reservafacil.security.SecurityService;
 import br.com.fiap.hackathon.reservafacil.service.impl.MedicamentoServiceImpl;
-import br.com.fiap.hackathon.reservafacil.service.impl.OperadorServiceImpl;
 import br.com.fiap.hackathon.reservafacil.util.MedicamentoUtil;
 import br.com.fiap.hackathon.reservafacil.util.PrestadorUtil;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static br.com.fiap.hackathon.reservafacil.util.OperadorUtil.gerarOperador;
-import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarUsuario;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarioUtil.gerarUsuario;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;

@@ -1,19 +1,14 @@
 package br.com.fiap.hackathon.reservafacil.service;
 
-import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioCadastradoException;
-import br.com.fiap.hackathon.reservafacil.exception.beneficiario.BeneficiarioNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.operador.OperadorCadastradoException;
 import br.com.fiap.hackathon.reservafacil.exception.operador.OperadorNaoEncontradoException;
 import br.com.fiap.hackathon.reservafacil.exception.usuario.AcessoNegadoException;
 import br.com.fiap.hackathon.reservafacil.model.*;
-import br.com.fiap.hackathon.reservafacil.model.dto.beneficiario.CadastrarBeneficiarioRequest;
 import br.com.fiap.hackathon.reservafacil.model.dto.operador.CadastrarOperadorRequest;
-import br.com.fiap.hackathon.reservafacil.repository.BeneficiarioRepository;
 import br.com.fiap.hackathon.reservafacil.repository.OperadorRepository;
 import br.com.fiap.hackathon.reservafacil.repository.PrestadorRepository;
 import br.com.fiap.hackathon.reservafacil.repository.RoleRepository;
 import br.com.fiap.hackathon.reservafacil.security.SecurityService;
-import br.com.fiap.hackathon.reservafacil.service.impl.BeneficiarioServiceImpl;
 import br.com.fiap.hackathon.reservafacil.service.impl.OperadorServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +28,7 @@ import static br.com.fiap.hackathon.reservafacil.util.OperadorUtil.gerarCadastra
 import static br.com.fiap.hackathon.reservafacil.util.OperadorUtil.gerarOperador;
 import static br.com.fiap.hackathon.reservafacil.util.PrestadorUtil.gerarPrestador;
 import static br.com.fiap.hackathon.reservafacil.util.RoleUtil.gerarRole;
-import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarUsuario;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarioUtil.gerarUsuario;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;

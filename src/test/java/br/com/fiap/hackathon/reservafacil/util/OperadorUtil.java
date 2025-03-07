@@ -1,13 +1,12 @@
 package br.com.fiap.hackathon.reservafacil.util;
 
-import br.com.fiap.hackathon.reservafacil.model.Medicamento;
 import br.com.fiap.hackathon.reservafacil.model.Operador;
 import br.com.fiap.hackathon.reservafacil.model.dto.operador.CadastrarOperadorRequest;
 
 import java.util.UUID;
 
 import static br.com.fiap.hackathon.reservafacil.util.PrestadorUtil.gerarPrestador;
-import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.*;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarioUtil.*;
 
 public class OperadorUtil {
     public static Operador gerarOperador() {

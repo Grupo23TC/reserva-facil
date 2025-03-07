@@ -11,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
-import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarAtualizarSenhaRequest;
-import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarCadastrarUsuarioRequest;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarioUtil.gerarAtualizarSenhaRequest;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarioUtil.gerarCadastrarUsuarioRequest;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 

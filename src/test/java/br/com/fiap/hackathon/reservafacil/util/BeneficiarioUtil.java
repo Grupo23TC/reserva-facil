@@ -8,8 +8,8 @@ import br.com.fiap.hackathon.reservafacil.model.enums.GeneroEnum;
 import br.com.fiap.hackathon.reservafacil.model.enums.TipoMedicamentoEnum;
 
 import static br.com.fiap.hackathon.reservafacil.util.EnderecoUtil.*;
-import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarCadastrarUsuarioRequest;
-import static br.com.fiap.hackathon.reservafacil.util.UsuarilUtil.gerarUsuario;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarioUtil.gerarCadastrarUsuarioRequest;
+import static br.com.fiap.hackathon.reservafacil.util.UsuarioUtil.gerarUsuario;
 
 public class BeneficiarioUtil {
     public static CadastrarBeneficiarioRequest gerarCadastrarBeneficiarioRequest() {
